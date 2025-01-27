@@ -1,4 +1,5 @@
 ---
-title: Welcome to my blog
+title: Welcome to my Page
 ---
 
+I will publish my notes, learning experiences, and tips.  I will share my projects.
