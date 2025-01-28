@@ -1,0 +1,29 @@
+---
+title: "1st Post"
+date: 2025-01-25
+---
+
+# 1st Post
+
+## Description
+
+This is a test blog.
+
+--- 
+
+## Notes
+
+### Jekyll File Format
+
+`_posts/YYYY-MM-DD-title.md`
+
+---
+
+### Frontmatter
+
+```markdown
+    ```
+    title: "title" 
+    date: YYYY-MM-DD
+    ```
+```
