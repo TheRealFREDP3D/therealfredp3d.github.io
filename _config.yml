@@ -13,24 +13,25 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
+
 title: TheRealFred.ca - Learning in Public & Projects
 email: fredp3d@proton.me
-description: >- # this means to ignore newlines until "baseurl:"
-  Welcome to my digital garden! Here, I document my learning journey, share projects, 
-  and explore tools and AI concepts. Feel free to explore and learn alongside me.
+
+description: Welcome to my digital garden! Here, I document my learning journey, share projects, and explore tools and AI concepts. Feel free to explore and learn alongside me.
 twitter_username: TheRealFredP3D
 github_username: TheRealFREDP3D
-minimal_mistakes_skin: air
+minimal_mistakes_skin: dark
 search: true
 
 # Build settings
 markdown: kramdown
 remote_theme: mmistakes/minimal-mistakes
+
 # Outputting
 permalink: /:categories/:title/
-paginate: 5 # amount of posts to show
+paginate: 8 # amount of posts to show
 paginate_path: /page:num/
-timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+timezone: America/New_York
 
 include:
   - _pages
@@ -59,27 +60,32 @@ plugins:
 author:
   name   : "Frederick Pellerin"
   avatar : "/assets/images/picofme.png"
-  bio    : "Tech Explorer and Serial Learn"
+  bio    : "Tech Explorer and Serial Learner"
+  # Social links for author profile
   links:
     - label: "Website"
       icon: "fas fa-fw fa-link"
       url: "http://www.therealfred.ca"
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/therealfredp3d"
+      url: &twitter "https://twitter.com/therealfredp3d" # Using anchor for DRY
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/therealfredp3d"
-    
+      url: &github "https://github.com/therealfredp3d" # Using anchor for DRY
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://linkedin.com/in/fredpellerin"
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope-square"
+      url: "mailto:fredp3d@proton.me"
 footer:
   links:
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/therealfredp3d"
+      url: *twitter # Reference to the anchor defined in author section
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/therealfredp3d"
-    
+      url: *github # Reference to the anchor defined in author section
 defaults:
   # _posts
   - scope:
@@ -99,7 +105,10 @@ defaults:
     values:
       layout: single
       author_profile: true
-
+  - scope:
+      path: "assets/img"
+    values:
+      image: true  
 category_archive:
   type: liquid
   path: /categories/
