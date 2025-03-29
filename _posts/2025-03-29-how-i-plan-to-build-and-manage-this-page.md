@@ -1,6 +1,6 @@
 ---
 created: Friday, March 28th 2025, 11:09:48 pm
-title: Building and Managing a Website Bipolar Strategy
+title: Building and Managing a Website Dual Strategy
 description: Discover my plan for building and managing this page effectively using both Obsidian and VSCode.
 date: 2025-03-29T03:19:35.454Z
 preview: /images/obsidian-vscode-duo.png
