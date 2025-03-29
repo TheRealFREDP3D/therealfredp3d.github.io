@@ -1,117 +1,33 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that. If you find
-# yourself editing this file very often, consider using Jekyll's data files
-# feature for the data you need to update frequently.
-#
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
-
-# Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
-
-title: TheRealFred.ca - Learning in Public & Projects
-email: fredp3d@proton.me
-
-description: Welcome to my digital garden! Here, I document my learning journey, share projects, and explore tools and AI concepts. Feel free to explore and learn alongside me.
-twitter_username: TheRealFredP3D
-github_username: TheRealFREDP3D
-minimal_mistakes_skin: dark
-search: true
-
-# Build settings
+# Markdown Processing
 markdown: kramdown
-remote_theme: mmistakes/minimal-mistakes
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
 
-# Outputting
-permalink: /:categories/:title/
-paginate: 8 # amount of posts to show
-paginate_path: /page:num/
-timezone: America/New_York
-
-include:
-  - _pages
-
-# Exclude from processing.
-# The following items will not be processed, by default. Create a custom list
-# to override the default setting.
-# exclude:
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
-
-# Plugins (previously gems:)
+# Plugins
 plugins:
-  - jekyll-paginate
-  - jekyll-sitemap
-  - jekyll-gist
-  - jekyll-feed
-  - jemoji
+  - jekyll-mermaid
   - jekyll-include-cache
+  - jekyll-seo-tag
 
-author:
-  name   : "Frederick Pellerin"
-  avatar : "/assets/images/picofme.png"
-  bio    : "Tech Explorer and Serial Learner"
-  # Social links for author profile
-  links:
-    - label: "Website"
-      icon: "fas fa-fw fa-link"
-      url: "http://www.therealfred.ca"
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      url: &twitter "https://twitter.com/therealfredp3d" # Using anchor for DRY
-    - label: "GitHub"
-      icon: "fab fa-fw fa-github"
-      url: &github "https://github.com/therealfredp3d" # Using anchor for DRY
-    - label: "LinkedIn"
-      icon: "fab fa-fw fa-linkedin"
-      url: "https://linkedin.com/in/fredpellerin"
-    - label: "Email"
-      icon: "fas fa-fw fa-envelope-square"
-      url: "mailto:fredp3d@proton.me"
-footer:
-  links:
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      url: *twitter # Reference to the anchor defined in author section
-    - label: "GitHub"
-      icon: "fab fa-fw fa-github"
-      url: *github # Reference to the anchor defined in author section
+# Mermaid settings
+mermaid:
+  version: "9.1.3"
+  options:
+    theme: neutral
+    startOnLoad: true
+    flowchart:
+      useMaxWidth: true
+      htmlLabels: true
+
+# Defaults
 defaults:
-  # _posts
   - scope:
       path: ""
       type: posts
     values:
-      layout: single
-      author_profile: true
-      read_time: true
-      comments: true
-      share: true
-      related: true
-  # _pages
-  - scope:
-      path: "_pages"
-      type: pages
-    values:
-      layout: single
-      author_profile: true
-  - scope:
-      path: "assets/img"
-    values:
-      image: true  
-category_archive:
-  type: liquid
-  path: /categories/
-tag_archive:
-  type: liquid
-  path: /tags/
+      layout: post
+      toc: true
+      toc_sticky: true
+      mermaid: false
