@@ -36,15 +36,13 @@ keywords:
   - writing
 ---
 
-## Content Management Workflow
+## Content Management Strategy
 
 ### Writing Flow
+The writing experience is offered by Obsidian so that all setups are smooth and create content faster. Features like a file explorer, search, and document outlining aid in the organization and rapid location of information, while a powerful markdown editor facilitates intuitive formatting. It makes sure content is all related through internal linking to help with navigation within your site.
 
-Obsidian provides the writing environment, making content creation seamless and efficient. Its powerful markdown editor allows for intuitive formatting, while features like file explorer, search, and document outlining help organize and locate information quickly. Internal linking enhances content connectivity, making navigation effortless.
-
-### Metadata Management (via Frontmatter)
-
-Metadata is structured and stored using Frontmatter, ensuring consistency across all posts. This JSON-based system defines essential fields such as title, description, date, tags, and categories. Proper metadata management helps streamline content filtering, categorization, and automation within the website.
+### Metadata Management (through Frontmatter)
+Frontmatter creates a consistent structure and storage for the metadata of all the posts. The structure of this JSON-based system includes required fields including title, description, date, tags, and categories. They handle content filtering, sorting, and automation across the website much more efficiently.
 
 ```json
 {
@@ -87,19 +85,15 @@ Metadata is structured and stored using Frontmatter, ensuring consistency across
 ```
 
 ### Content Organization
+Knowledge is organized and tagged in a structured format, allowing content to be searched and organized easily. Taxonomy data is stored in `.frontmatter/database/taxonomyDb.json` to allow you to browse it structured. Posts get organized in terms of categories, tags, and years, which means users have an organized, logical, and intuitive navigation structure to visit.
 
-Content is categorized and tagged systematically to facilitate easy retrieval and organization. Taxonomy data is stored in `.frontmatter/database/taxonomyDb.json`, allowing structured browsing. Posts are arranged by categories, tags, and years, ensuring a logical and intuitive navigation structure for users.
+- **Categories** (`/categories/`): Bundle related content
+- **Tags** (`/tags/`): Enhance search capabilities
+- **Years** (`/posts/`): Chronological organization of posts
 
-- **Categories** (`/categories/`): Group similar content together
-- **Tags** (`/tags/`): Provide specific identifiers for refined search
-- **Years** (`/posts/`): Organize posts chronologically
+## Development and Deployment Strategy
 
-## Development Workflow
-
-A local preview of the website can be accessed at `http://localhost:4000`, enabling real-time content validation. Git integration ensures version control, allowing for efficient tracking of changes. Jekyll serves as the static site generator, seamlessly compiling markdown files into a functional website hosted via GitHub Pages.
-
-### Workflow Overview
-
+### Overall Workflow
 The development process follows a structured path from content creation to deployment:
 
 ```mermaid
@@ -118,15 +112,8 @@ graph LR
     style F fill:#673AB7,color:#fff
 ```
 
-### Content Flow Process
-
-The content creation and publishing workflow ensures quality and consistency:
-
-1. Write content in Obsidian
-2. Review and refine
-3. Add necessary metadata
-4. Preview locally
-5. Deploy when ready
+### Content Creation Process
+The content creation and publishing workflow ensures quality and consistency through a defined process:
 
 ```mermaid
 flowchart TD
@@ -150,9 +137,8 @@ flowchart TD
     style H fill:#E91E63,color:#fff
 ```
 
-### Git Branching Strategy
-
-Our version control strategy maintains clean code and enables collaborative development:
+### Version Control Strategy
+Our Git branching strategy maintains clean code and enables collaborative development:
 
 ```mermaid
 gitGraph
@@ -172,7 +158,6 @@ gitGraph
 ```
 
 ### Deployment Pipeline
-
 The automated deployment process ensures reliable and consistent site updates:
 
 ```mermaid
@@ -192,13 +177,10 @@ sequenceDiagram
     C->>User: Serve Content
 ```
 
-### Component Architecture
+## Technical Architecture
 
-The site architecture is organized into three main layers:
-
-1. Content Layer: Manages all content and assets
-2. Build Layer: Processes and generates the site
-3. Delivery Layer: Serves content to users
+### Component Structure
+The site architecture is organized into three main layers that work together seamlessly:
 
 ```mermaid
 graph TB
@@ -240,8 +222,7 @@ graph TB
     style I fill:#FF9800,color:#fff
 ```
 
-### Monitoring and Analytics Flow
-
+### Monitoring and Analytics
 Continuous monitoring helps optimize site performance and user experience:
 
 ```mermaid
@@ -262,54 +243,3 @@ graph LR
     style F fill:#673AB7,color:#fff
     style G fill:#2196F3,color:#fff
 ```
-
-These diagrams provide visual representations of:
-1. Overall workflow overview
-2. Content creation and publishing flow
-3. Git branching strategy
-4. Deployment pipeline sequence
-5. Component architecture
-6. Monitoring and analytics cycle
-
-Each diagram uses vibrant colors with white text for maximum readability, while maintaining a professional appearance. The color schemes help distinguish different components and stages of the process while ensuring text remains clearly visible.
-
-### Recommended Process
-
-1. **Create content** using Obsidian, leveraging its markdown editor and organization tools
-   - Write content in a distraction-free environment with live preview
-   - Utilize Obsidian's linking capabilities for connected thought
-   - Take advantage of templates and plugins for consistent content structure
-
-2. **Manage metadata** with Frontmatter to structure content effectively and maintain consistency
-   - Use the Frontmatter VSCode extension to manage post metadata
-   - Ensure all required fields (title, description, date) are properly filled
-   - Apply consistent tagging and categorization for better content organization
-
-3. **Preview locally** with Jekyll to ensure the site builds correctly before deployment
-   - Run `bundle exec jekyll serve` to start local development server
-   - Check content rendering, layout, and responsive design
-   - Verify all links, images, and embedded content work as expected
-
-4. **Commit changes** using Git for version control, enabling rollback and collaboration
-   - Stage and commit changes with meaningful commit messages
-   - Review changes using Git diff before committing
-   - Maintain a clean Git history for easier collaboration
-
-5. **Automatic deployment** via GitHub Pages ensures the site updates seamlessly after commits
-   - Push changes to the main branch to trigger automatic deployment
-   - Monitor GitHub Actions for successful build and deployment
-   - Verify changes are live on the production site
-
-### Content Structure
-
-The website's structure is logically organized into directories, ensuring clean and efficient content management:
-
-- **Posts**: Stored in `_posts` directory, managed by Frontmatter for structured metadata
-- **Pages**: Stored in `_pages` directory to separate standalone content from posts
-- **Assets**: Stored in `assets` directory for media, images, and other resources
-- **Navigation**: Defined in `_data/navigation.yml`, structuring menu links and internal navigation
-
-This workflow integrates Obsidian's editing capabilities, Frontmatter's metadata management, and Jekyll's static site generation, creating a seamless and efficient content publishing system.
-
-
-
