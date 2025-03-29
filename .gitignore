@@ -4,3 +4,5 @@ _site
 Gemfile.lock
 .qodo
 appmap.log
+.vscode/settings.json
+.vscode/therealfredp3d.github.io.code-workspace
