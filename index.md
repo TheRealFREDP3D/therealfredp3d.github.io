@@ -23,7 +23,7 @@ Welcome to my personal webpage where I share insights, projects, and learning ex
 
 ## Quick Links
 
-- [Learning Resources](/learning/)
+- [Posts](/posts/)
 - [Projects](/projects/)
 - [Tools](/tools/)
 - [About](/about/)
