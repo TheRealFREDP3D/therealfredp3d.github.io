@@ -1,21 +1,16 @@
 ---
 layout: default
-title: Projects
+title: Home
 ---
 
-# My Projects
+# Fred's Learning Journey (@therealfredp3d)
 
-## Password Generator
-**Tech Stack**: Python
-- Secure password generation with customizable parameters
-- Implementation of cryptographic best practices
-- [View Project](https://github.com/therealfredp3d)
+I'm a self-taught coder diving into Cybersecurity, Coding, and AI, building Projects, and mastering Tools.
 
-## AI Chatbot
-**Tech Stack**: Python, NLTK, TensorFlow
-- Simple chatbot using Natural Language Processing
-- Custom training data implementation
-- [View Project](https://github.com/therealfredp3d)
+## Navigation
+- [Cybersecurity Journey](/learning-journey/cybersecurity/) | [Learning](/learning/cybersecurity/)
+- [Coding Journey](/learning-journey/coding/) | [Learning](/learning/coding/)
+- [AI Journey](/learning-journey/ai/) | [Learning](/learning/ai/)
+- [Projects](/projects/) – My builds
+- [Tools](/tools/) – My toolkit
 
-## More Coming Soon
-I'm constantly working on new projects. Check back later for updates!

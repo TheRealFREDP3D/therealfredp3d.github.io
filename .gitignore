@@ -17,3 +17,4 @@ _site/
 # Details at https://github.com/github/pages-gem/issues/768
 Gemfile.lock
 /.dev_notes
+/simple template based on my profile-grok.md
