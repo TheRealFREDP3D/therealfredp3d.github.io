@@ -3,17 +3,6 @@
         <a href="/" {% if page.url == "/" %}class="active"{% endif %}>Home</a>
         
         <div class="dropdown">
-            <a href="/learning-journey/" {% if page.url contains "/learning-journey/" %}class="active"{% endif %}>
-                Learning Journey
-            </a>
-            <div class="dropdown-content">
-                <a href="/learning-journey/cybersecurity/">Cybersecurity</a>
-                <a href="/learning-journey/coding/">Coding</a>
-                <a href="/learning-journey/ai/">AI</a>
-            </div>
-        </div>
-
-        <div class="dropdown">
             <a href="/learning/" {% if page.url contains "/learning/" %}class="active"{% endif %}>
                 Learning Resources
             </a>

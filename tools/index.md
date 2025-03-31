@@ -1,9 +1,9 @@
 ---
 layout: default
-title: Resources
+title: Tools
 ---
 
-# Useful Resources
+# Useful Tools
 
 ## Development Tools
 - VS Code with Python extensions
