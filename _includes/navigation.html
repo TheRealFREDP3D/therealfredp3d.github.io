@@ -3,13 +3,13 @@
         <a href="/" {% if page.url == "/" %}class="active"{% endif %}>Home</a>
         
         <div class="dropdown">
-            <a href="/learning/" {% if page.url contains "/learning/" %}class="active"{% endif %}>
-                Learning Resources
+            <a href="/posts/" {% if page.url contains "/posts/" %}class="active"{% endif %}>
+                Posts
             </a>
             <div class="dropdown-content">
-                <a href="/learning/cybersecurity/">Cybersecurity</a>
-                <a href="/learning/coding/">Coding</a>
-                <a href="/learning/ai/">AI</a>
+                <a href="/posts/cybersecurity/">Cybersecurity</a>
+                <a href="/posts/coding/">Coding</a>
+                <a href="/posts/ai/">AI</a>
             </div>
         </div>
 
@@ -18,3 +18,4 @@
         <a href="/about/" {% if page.url == "/about/" %}class="active"{% endif %}>About</a>
     </div>
 </nav>
+
