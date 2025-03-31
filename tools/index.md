@@ -1,32 +1,17 @@
 ---
-layout: default
-title: Tools
+layout: collection
+title: "Software & Tools"
+collection: tools
+permalink: /tools/
+entries_layout: grid
 ---
 
-# Useful Tools
+This section explores various software tools, development environments, and utilities that I use or have evaluated. Each entry provides an overview, installation guide, and practical usage examples.
 
-## Development Tools
-- VS Code with Python extensions
-- Git & GitHub
-- PyCharm Community Edition
+## Featured Tools
 
-## Learning Platforms
-- freeCodeCamp
-- Coursera
-- YouTube Tutorials
+{% assign featured_tools = site.tools | where: "featured", true | limit: 2 %}
+{% for tool in featured_tools %}
 
-## Coding Tips
-### Python
-- Use virtual environments for projects
-- Follow PEP 8 style guide
-- Write tests for your code
-
-### Git
-- Commit often
-- Write clear commit messages
-- Use branches for features
-
-## Recommended Books
-- "Python Crash Course" by Eric Matthes
-- "Clean Code" by Robert C. Martin
-- "Learning Python" by Mark Lutz
+- [{{ tool.title }}]({{ tool.url }}) - {{ tool.description | truncate: 100 }}
+{% endfor %}

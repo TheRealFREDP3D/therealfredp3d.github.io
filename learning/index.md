@@ -1,28 +1,15 @@
 ---
-layout: default
-title: Learning Journey
+layout: collection
+title: "Learning Journey"
+collection: learning
+permalink: /learning/
+entries_layout: grid
 ---
 
-# My Learning Journey
+This is where I document my learning progress, insights, and reflections as I grow professionally and personally. Each post covers specific topics I'm exploring, challenges I've overcome, and resources that have helped me along the way.
 
-## Current Focus
-- Advanced Python Programming
-- Machine Learning Fundamentals
-- Cybersecurity Tools Development
+## Recent Learning Entries
 
-## Milestones
-### 2024
-- Completed Python for Cybersecurity course
-- Built first AI model
-- Learned Git workflow
-
-### 2023
-- Started programming journey
-- Created first Python script
-- Learned basic web development
-
-## Skills
-- Python
-- Basic Machine Learning
-- Git & GitHub
-- Cybersecurity Fundamentals
+{% for post in site.posts limit:3 %}
+- [{{ post.title }}]({{ post.url }}) - {{ post.date | date: "%B %d, %Y" }}
+{% endfor %}

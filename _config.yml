@@ -15,9 +15,12 @@ collections:
   tools:
     output: true
     permalink: /tools/:title/
-  posts:  # Changed from 'learning' to 'posts'
+  posts:  
     output: true
     permalink: /posts/:title/
+  ai:
+    output: true
+    permalink: /ai/:path/
 show_downloads: false
 
 
