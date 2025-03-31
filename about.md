@@ -19,6 +19,8 @@ I'm Fred (@therealfredp3d), a self-taught developer with a passion for technolog
 - Email: [fredp3d@proton.me](mailto:fredp3d@proton.me)
 
 ## Goals
+
 - Contribute to open-source projects
 - Build useful security tools
 - Share knowledge with others
+-
