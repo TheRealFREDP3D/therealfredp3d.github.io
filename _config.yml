@@ -6,6 +6,8 @@ remote_theme: pages-themes/midnight@v0.2.0
 plugins:
   - jekyll-remote-theme
   - jekyll-feed
+  - jekyll-sitemap  # Add for better SEO
+  - jekyll-seo-tag  # Add for better SEO
 collections:
   projects:
     output: true
@@ -13,4 +15,8 @@ collections:
   tools:
     output: true
     permalink: /tools/:title/
+  learning:  # Add learning as a collection
+    output: true
+    permalink: /learning/:title/
 show_downloads: false
+
