@@ -3,14 +3,42 @@ layout: default
 title: Home
 ---
 
-# Fred's Learning Journey (@therealfredp3d)
+{% include navigation.html %}
 
-I'm a self-taught coder diving into Cybersecurity, Coding, and AI, building Projects, and mastering Tools.
+# Welcome to Fred's Learning Journey
 
-## Navigation
-- [Cybersecurity Journey](/learning-journey/cybersecurity/) | [Learning](/learning/cybersecurity/)
-- [Coding Journey](/learning-journey/coding/) | [Learning](/learning/coding/)
-- [AI Journey](/learning-journey/ai/) | [Learning](/learning/ai/)
-- [Projects](/projects/) – My builds
-- [Tools](/tools/) – My toolkit
+## Latest Updates
+
+### Recent Posts
+{% for post in site.posts limit:3 %}
+- [{{ post.title }}]({{ post.url }}) - {{ post.date | date: "%B %d, %Y" }}
+{% endfor %}
+
+### Featured Projects
+{% assign featured_projects = site.projects | where: "featured", true | limit: 2 %}
+{% for project in featured_projects %}
+- [{{ project.title }}]({{ project.url }}) - {{ project.description | truncate: 100 }}
+{% endfor %}
+
+## Quick Links
+
+### Learning Paths
+- [🔒 Cybersecurity Track](/learning-journey/cybersecurity/)
+- [💻 Coding Track](/learning-journey/coding/)
+- [🤖 AI Track](/learning-journey/ai/)
+
+### Resources
+- [📚 Learning Materials](/learning/)
+- [🛠️ Tools Collection](/tools/)
+- [📂 All Projects](/projects/)
+
+## Skills Progress
+- Python Development
+- Machine Learning
+- Network Security
+- Web Development
+
+[View Full Journey](/learning-journey/)
+
+
 
