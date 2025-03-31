@@ -1,20 +1,21 @@
 ---
 layout: default
 title: Home
+description: "Welcome to Fred's Learnings and Projects – exploring Cybersecurity, Coding, AI, Projects, and Tools."
 ---
 
-{% include navigation.html %}
+# Welcome to Fred's Learnings and Projects
 
-# Welcome to Fred's Learning Journey
+Welcome to my personal webpage where I share insights, projects, and learning experiences in cybersecurity, coding, AI, and more.
 
 ## Latest Updates
 
-### Recent Posts
 {% for post in site.posts limit:3 %}
 - [{{ post.title }}]({{ post.url }}) - {{ post.date | date: "%B %d, %Y" }}
 {% endfor %}
 
-### Featured Projects
+## Featured Projects
+
 {% assign featured_projects = site.projects | where: "featured", true | limit: 2 %}
 {% for project in featured_projects %}
 - [{{ project.title }}]({{ project.url }}) - {{ project.description | truncate: 100 }}
@@ -22,23 +23,16 @@ title: Home
 
 ## Quick Links
 
-### Learning Paths
-- [🔒 Cybersecurity Track](/learning/cybersecurity)
-- [💻 Coding Track](/learning/coding)
-- [🤖 AI Track](/learning/ai)
-
-### Resources
-- [📚 Learning Materials](/learning/)
-- [🛠️ Tools Collection](/tools/)
-- [📂 All Projects](/projects/)
+- [Learning Resources](/learning/)
+- [Projects](/projects/)
+- [Tools](/tools/)
+- [About](/about/)
 
 ## Skills Progress
+
 - Python Development
 - Machine Learning
 - Network Security
 - Web Development
 
-[View Full Journey](/learning)
-
-
-
+[Explore More](/learning)
