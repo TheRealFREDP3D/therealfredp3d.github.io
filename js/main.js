@@ -296,5 +296,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 10);
     
     window.addEventListener('scroll', debouncedScrollHandler);
+
+    // Fetch and update GitHub stats
+    async function updateGitHubStats() {
+        try {
+            const response = await fetch('https://api.github.com/users/therealfredp3d');
+            const data = await response.json();
+
+            document.querySelector('[data-target-metric="repos"]').textContent = data.public_repos;
+            document.querySelector('[data-target-metric="followers"]').textContent = data.followers;
+
+            // For stars, you may need to iterate through repos, but this is a good start
+            // This part is simplified; a more complex approach is needed for total stars
+            // For now, let's leave contributions and stars as they are
+        } catch (error) {
+            console.error('Error fetching GitHub stats:', error);
+        }
+    }
+
+    updateGitHubStats();
 });
 
