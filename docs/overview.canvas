@@ -1,0 +1,178 @@
+{
+  "nodes": [
+    {
+      "type": "nested-canvas",
+      "id": "c3cbfda1-6d74-45b0-bafd-a887764dc337",
+      "x": -130.7308926413587,
+      "y": 216.00475520033467,
+      "width": 690,
+      "height": 280,
+      "canvas": {
+        "nodes": [
+          {
+            "type": "nested-canvas",
+            "id": "3d055f7f-8719-44bb-9a3b-8dfb5c6de323",
+            "x": 89.26910735864129,
+            "y": 266.00475520033467,
+            "width": 420,
+            "height": 180,
+            "canvas": {
+              "nodes": [
+                {
+                  "type": "text",
+                  "id": "7bc5e109-0c05-4240-8b1d-491acb852623",
+                  "x": 307,
+                  "y": 44.4,
+                  "width": 163,
+                  "height": 108,
+                  "color": "6",
+                  "text": "---\nfiles: [\"index.html\"]\ntext-align: center\n\n--- \n## Main Page  \n  HTML5"
+                },
+                {
+                  "type": "text",
+                  "id": "f82d3f65-a7ed-4b04-b1c9-c25ad74dce4a",
+                  "x": 800.5,
+                  "y": 328,
+                  "width": 168,
+                  "height": 108,
+                  "color": "6",
+                  "text": "---\nfiles: [\"js/main.js\"]\ntext-align: center\n\n--- \n## Core Script  \n  JavaScript"
+                },
+                {
+                  "type": "text",
+                  "id": "6ba68277-7eb6-4236-ae19-01a4c8d2ff00",
+                  "x": 1149,
+                  "y": 328,
+                  "width": 223,
+                  "height": 108,
+                  "color": "6",
+                  "text": "---\nfiles: [\"js/animations.js\"]\ntext-align: center\n---\n## Animation Script  \n  JavaScript"
+                },
+                {
+                  "type": "text",
+                  "id": "7a32d261-5872-4cc2-b20a-20e7d01021f3",
+                  "x": 770,
+                  "y": 170,
+                  "width": 172,
+                  "height": 108,
+                  "color": "6",
+                  "text": "---\nfiles: [\"css/style.css\"]\ntext-align: center\n\n--- \n## Main Styles  \n  CSS3"
+                },
+                {
+                  "type": "text",
+                  "id": "2e8101b8-2116-4c76-865a-06f7bfbf315a",
+                  "x": 770,
+                  "y": 12,
+                  "width": 229,
+                  "height": 108,
+                  "color": "6",
+                  "text": "---\nfiles: [\"css/responsive.css\"]\ntext-align: center\n\n--- \n## Responsive Styles  \n  CSS3"
+                },
+                {
+                  "type": "text",
+                  "id": "285f205c-c646-420a-bac3-031fc9e5e24b",
+                  "x": 770,
+                  "y": 486,
+                  "width": 187,
+                  "height": 108,
+                  "color": "6",
+                  "text": "---\nfiles: [\"assets/images/python-background.jpg\",\"assets/images/linux-terminal.png\",\"assets/images/cybersecurity-header.jpg\",\"assets/images/ctf-background.jpg\",\"assets/images/ai-visualization.png\"]\ntext-align: center\n\n--- \n## Image Assets  \n  JPG, PNG"
+                },
+                {
+                  "type": "text",
+                  "id": "d1f28fb3-c512-4815-adb0-9239d623c241",
+                  "x": 12,
+                  "y": 44.4,
+                  "width": 145,
+                  "height": 108,
+                  "color": "1",
+                  "text": "---\ntext-align: center\n\n---\n\n \n ## User  \n Website User"
+                }
+              ],
+              "edges": [
+                {
+                  "id": "d7136922-33b6-486f-9c03-4c728958e1b7",
+                  "fromNode": "7bc5e109-0c05-4240-8b1d-491acb852623",
+                  "fromSide": "right",
+                  "toNode": "f82d3f65-a7ed-4b04-b1c9-c25ad74dce4a",
+                  "toSide": "left",
+                  "toEnd": "arrow",
+                  "label": "Loads script"
+                },
+                {
+                  "id": "ed9d0ba2-63b1-4e2e-97f8-9b76cf951d11",
+                  "fromNode": "7bc5e109-0c05-4240-8b1d-491acb852623",
+                  "fromSide": "right",
+                  "toNode": "7a32d261-5872-4cc2-b20a-20e7d01021f3",
+                  "toSide": "left",
+                  "toEnd": "arrow",
+                  "label": "Applies styles"
+                },
+                {
+                  "id": "68d6868c-6bd0-4d69-ac0c-d06bafee70a7",
+                  "fromNode": "7bc5e109-0c05-4240-8b1d-491acb852623",
+                  "fromSide": "right",
+                  "toNode": "2e8101b8-2116-4c76-865a-06f7bfbf315a",
+                  "toSide": "left",
+                  "toEnd": "arrow",
+                  "label": "Applies styles"
+                },
+                {
+                  "id": "8004cedf-a8b4-4639-89bd-11412ef6aa3c",
+                  "fromNode": "7bc5e109-0c05-4240-8b1d-491acb852623",
+                  "fromSide": "right",
+                  "toNode": "285f205c-c646-420a-bac3-031fc9e5e24b",
+                  "toSide": "left",
+                  "toEnd": "arrow",
+                  "label": "Displays images"
+                },
+                {
+                  "id": "968110f3-565c-4952-9172-88c75a653e94",
+                  "fromNode": "f82d3f65-a7ed-4b04-b1c9-c25ad74dce4a",
+                  "fromSide": "right",
+                  "toNode": "6ba68277-7eb6-4236-ae19-01a4c8d2ff00",
+                  "toSide": "left",
+                  "toEnd": "arrow",
+                  "label": "Triggers animations"
+                },
+                {
+                  "id": "2ca80d1e-d144-4149-a79e-2cae6fae8210",
+                  "fromNode": "d1f28fb3-c512-4815-adb0-9239d623c241",
+                  "fromSide": "right",
+                  "toNode": "7bc5e109-0c05-4240-8b1d-491acb852623",
+                  "toSide": "left",
+                  "toEnd": "arrow",
+                  "label": "Views website"
+                }
+              ]
+            },
+            "title": "Website Frontend | Web Server, Browser"
+          },
+          {
+            "type": "text",
+            "id": "da25409d-5020-4715-b7cf-dd4d1ca9d947",
+            "x": -80.73089264135871,
+            "y": 317.20001220703125,
+            "width": 145,
+            "height": 108,
+            "color": "6",
+            "text": "---\ntext-align: center\n\n---\n\n \n ## User  \n Website User"
+          }
+        ],
+        "edges": [
+          {
+            "id": "2ca80d1e-d144-4149-a79e-2cae6fae8210",
+            "fromNode": "da25409d-5020-4715-b7cf-dd4d1ca9d947",
+            "fromSide": "right",
+            "toNode": "3d055f7f-8719-44bb-9a3b-8dfb5c6de323",
+            "toSide": "left",
+            "toEnd": "arrow",
+            "label": "Views website"
+          }
+        ]
+      },
+      "title": "No title"
+    }
+  ],
+  "edges": []
+}
