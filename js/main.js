@@ -322,10 +322,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const totalContributions = contribData.total['2024'];
 
             // Update stats in the DOM
-            document.querySelector('[data-target-metric="contributions"]').textContent = totalContributions;
-            document.querySelector('[data-target-metric="repos"]').textContent = userData.public_repos;
-            document.querySelector('[data-target-metric="stars"]').textContent = totalStars;
-            document.querySelector('[data-target-metric="followers"]').textContent = userData.followers;
+document.querySelector('[data-target-metric="contributions"]').setAttribute('data-target', totalContributions);
+document.querySelector('[data-target-metric="repos"]').setAttribute('data-target', userData.public_repos);
+document.querySelector('[data-target-metric="stars"]').setAttribute('data-target', totalStars);
+document.querySelector('[data-target-metric="followers"]').setAttribute('data-target', userData.followers);
 
             // Animate counters after updating
             animateCounters();
