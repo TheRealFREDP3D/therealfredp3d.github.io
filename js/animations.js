@@ -149,14 +149,14 @@ document.addEventListener('DOMContentLoaded', function() {
     class MouseTrail {
         constructor() {
             this.trail = [];
-            this.maxTrailLength = 20;
+            this.maxTrailLength = 40; // Increased trail length
             this.init();
+            this.animate();
         }
         
         init() {
             document.addEventListener('mousemove', (e) => {
                 this.addTrailPoint(e.clientX, e.clientY);
-                this.updateTrail();
             });
         }
         
@@ -168,6 +168,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
+        animate() {
+            this.updateTrail();
+            requestAnimationFrame(() => this.animate());
+        }
+
         updateTrail() {
             // Remove existing trail elements
             document.querySelectorAll('.mouse-trail').forEach(el => el.remove());
@@ -179,9 +184,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     position: fixed;
                     left: ${point.x}px;
                     top: ${point.y}px;
-                    width: ${4 + index * 2}px;
-                    height: ${4 + index * 2}px;
-                    background: rgba(0, 255, 136, ${point.life * 0.5});
+                    width: ${2 + index * 1}px;
+                    height: ${2 + index * 1}px;
+                    background: rgba(184, 115, 51, ${point.life * 0.2});
                     border-radius: 50%;
                     pointer-events: none;
                     z-index: 9999;
@@ -192,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.body.appendChild(trailElement);
                 
                 // Fade out
-                point.life -= 0.05;
+                point.life -= 0.025; // Slower fade out
                 if (point.life <= 0) {
                     trailElement.remove();
                 }
