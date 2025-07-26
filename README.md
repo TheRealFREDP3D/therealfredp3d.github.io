@@ -59,6 +59,7 @@ therealfredp3d-website/
 - Hover effects on project cards
 - Typing animation for hero title
 - Parallax scrolling effects
+- Time-based cursor trailing effect
 
 ### Performance Features
 
@@ -95,10 +96,10 @@ This website is designed to be deployed on GitHub Pages with a custom domain (th
 
 ## Performance Metrics
 
-- Lighthouse Performance Score: 95+
-- First Contentful Paint: < 1.5s
-- Largest Contentful Paint: < 2.5s
-- Cumulative Layout Shift: < 0.1
+- Lighthouse Performance Score: **95+**
+- First Contentful Paint: **< 1.5s**
+- Largest Contentful Paint: **< 2.5s**
+- Cumulative Layout Shift: **< 0.1**
 
 ## Future Enhancements
 
@@ -115,7 +116,9 @@ For questions or suggestions about this website:
 - GitHub: [@therealfredp3d](https://github.com/therealfredp3d)
 - LinkedIn: [fredp3d](https://linkedin.com/in/fredp3d)
 - Twitter: [@TheRealFREDP3D](https://twitter.com/TheRealFREDP3D)
-
+- Email: [fredp3d@proton.me](mailto:fredp3d@proton.me)
+- Website: [https://therealfred.ca](therealfred.ca - Learning in Public & Projects)
+  
 ---
 
-Built with passion for cybersecurity and technology by Frederick Pellerin (TheRealFredP3D).
+Built with passion for computer science and technology by Frederick Pellerin (TheRealFredP3D).
