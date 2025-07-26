@@ -59,6 +59,7 @@ therealfredp3d-website/
 - Hover effects on project cards
 - Typing animation for hero title
 - Parallax scrolling effects
+- Time-based cursor trailing effect
 
 ### Performance Features
 

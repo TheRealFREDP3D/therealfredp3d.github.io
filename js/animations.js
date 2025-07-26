@@ -150,7 +150,25 @@ document.addEventListener('DOMContentLoaded', function() {
         constructor() {
             this.trail = [];
             this.maxTrailLength = 20;
+            
+            // Create a pool of divs once
+            this.pool = Array.from({ length: this.maxTrailLength }).map(() => {
+                const el = document.createElement('div');
+                el.className = 'mouse-trail';
+                el.style.cssText = `
+                    position: fixed;
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: 9999;
+                    transform: translate(-50%, -50%);
+                    transition: opacity 0.3s ease;
+                `;
+                document.body.appendChild(el);
+                return el;
+            });
+            
             this.init();
+            this.startFadeLoop();
         }
         
         init() {
@@ -161,7 +179,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         addTrailPoint(x, y) {
-            this.trail.push({ x, y, life: 1 });
+            this.trail.push({ 
+                x, 
+                y, 
+                life: 1,
+                timestamp: Date.now()
+            });
             
             if (this.trail.length > this.maxTrailLength) {
                 this.trail.shift();
@@ -169,36 +192,39 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         updateTrail() {
-            // Remove existing trail elements
-            document.querySelectorAll('.mouse-trail').forEach(el => el.remove());
-            
-            this.trail.forEach((point, index) => {
-                const trailElement = document.createElement('div');
-                trailElement.className = 'mouse-trail';
-                trailElement.style.cssText = `
-                    position: fixed;
-                    left: ${point.x}px;
-                    top: ${point.y}px;
-                    width: ${4 + index * 2}px;
-                    height: ${4 + index * 2}px;
-                    background: rgba(0, 255, 136, ${point.life * 0.5});
-                    border-radius: 50%;
-                    pointer-events: none;
-                    z-index: 9999;
-                    transform: translate(-50%, -50%);
-                    transition: opacity 0.3s ease;
-                `;
-                
-                document.body.appendChild(trailElement);
-                
-                // Fade out
-                point.life -= 0.05;
-                if (point.life <= 0) {
-                    trailElement.remove();
-                }
+            // Update only active items
+            this.trail.forEach((point, i) => {
+                const el = this.pool[i];
+                el.style.left = point.x + 'px';
+                el.style.top = point.y + 'px';
+                el.style.width = (4 + i * 2) + 'px';
+                el.style.height = (4 + i * 2) + 'px';
+                el.style.background = `rgba(0,255,136,${point.life * 0.5})`;
+                el.style.opacity = point.life > 0 ? point.life : 0;
             });
             
-            this.trail = this.trail.filter(point => point.life > 0);
+            // Hide remaining pool items
+            for (let i = this.trail.length; i < this.maxTrailLength; i++) {
+                this.pool[i].style.opacity = 0;
+            }
+        }
+        
+        startFadeLoop() {
+            const fadeInterval = setInterval(() => {
+                const currentTime = Date.now();
+                
+                this.trail.forEach(point => {
+                    const age = currentTime - point.timestamp;
+                    const fadeTime = 1000; // 1 second fade time
+                    point.life = Math.max(0, 1 - (age / fadeTime));
+                });
+                
+                // Clean up old points
+                this.trail = this.trail.filter(point => point.life > 0);
+                
+                // Update visual representation
+                this.updateTrail();
+            }, 16); // ~60fps
         }
     }
     
