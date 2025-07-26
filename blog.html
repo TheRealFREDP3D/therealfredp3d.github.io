@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - THEREALFRED.CA | Learning in Public & Projects</title>
+    <meta name="description" content="Frederick Pellerin's blog - Tech insights on AI, Cybersecurity, Python, and more. Learning in public and sharing the journey.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/blog.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" class="logo-text">THEREALFRED.CA</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#skills" class="nav-link">Skills</a></li>
+                <li><a href="index.html#projects" class="nav-link">Projects</a></li>
+                <li><a href="blog.html" class="nav-link active">Blog</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Header -->
+    <section class="blog-header">
+        <div class="matrix-rain"></div>
+        <div class="container">
+            <div class="blog-header-content">
+                <h1 class="blog-title">
+                    <span class="typing-text">Learning in Public</span>
+                </h1>
+                <p class="blog-subtitle">Tech insights, tutorials, and thoughts on AI, Cybersecurity, Python, and more</p>
+                <div class="blog-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-newspaper"></i>
+                        <span>9 Articles</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-eye"></i>
+                        <span>1.2K+ Reads</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-heart"></i>
+                        <span>150+ Claps</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Posts -->
+    <section class="featured-posts section">
+        <div class="container">
+            <h2 class="section-title">Featured Articles</h2>
+            <div class="featured-grid" id="featured-posts">
+                <!-- Featured posts will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- All Posts -->
+    <section class="all-posts section">
+        <div class="container">
+            <div class="posts-header">
+                <h2 class="section-title">All Articles</h2>
+                <div class="filter-tags">
+                    <button class="tag-filter active" data-tag="all">All</button>
+                    <button class="tag-filter" data-tag="AI">AI</button>
+                    <button class="tag-filter" data-tag="Python">Python</button>
+                    <button class="tag-filter" data-tag="Cybersecurity">Cybersecurity</button>
+                    <button class="tag-filter" data-tag="Tutorial">Tutorial</button>
+                    <button class="tag-filter" data-tag="Orwell">Analysis</button>
+                </div>
+            </div>
+            <div class="posts-grid" id="all-posts">
+                <!-- All posts will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Signup -->
+    <section class="newsletter section">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Stay Updated</h2>
+                <p>Get notified when I publish new articles about tech, AI, and cybersecurity</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="your.email@domain.com" class="email-input">
+                    <button class="btn btn-primary">Subscribe</button>
+                </div>
+                <p class="newsletter-note">
+                    <i class="fas fa-shield-alt"></i>
+                    No spam, unsubscribe anytime. Read on <a href="https://medium.com/@TheRealFREDP3D" target="_blank">Medium</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>THEREALFRED.CA</h3>
+                    <p>Learning in Public & Projects</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/therealfredp3d" target="_blank" class="social-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://medium.com/@TheRealFREDP3D" target="_blank" class="social-link">
+                            <i class="fab fa-medium"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/fredp3d" target="_blank" class="social-link">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://twitter.com/TheRealFREDP3D" target="_blank" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="index.html#skills">Skills</a></li>
+                        <li><a href="index.html#projects">Projects</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Topics</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" data-tag="AI">Artificial Intelligence</a></li>
+                        <li><a href="#" data-tag="Python">Python Development</a></li>
+                        <li><a href="#" data-tag="Cybersecurity">Cybersecurity</a></li>
+                        <li><a href="#" data-tag="Tutorial">Tutorials</a></li>
+                        <li><a href="#" data-tag="CTF">Capture The Flag</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <p>Quebec City, QC, Canada</p>
+                    <p>EST (UTC-5)</p>
+                    <p><a href="mailto:fredp3d@proton.me">fredp3d@proton.me</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Frederick Pellerin. All rights reserved.</p>
+                <p>Built with passion for technology and learning</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="blog/blog-data.js"></script>
+    <script src="js/blog.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
+

@@ -148,67 +148,56 @@ document.addEventListener('DOMContentLoaded', function() {
     // Mouse trail effect
     class MouseTrail {
         constructor() {
-            this.canvas = document.getElementById('mouse-trail-canvas');
-            this.ctx = this.canvas.getContext('2d');
             this.trail = [];
-            this.maxTrailLength = 40;
-            this.idleTimeout = null;
-            this.animating = false;
-
-            this.resizeCanvas();
+            this.maxTrailLength = 20;
             this.init();
         }
-
-        resizeCanvas() {
-            this.canvas.width = window.innerWidth;
-            this.canvas.height = window.innerHeight;
-        }
-
+        
         init() {
-            window.addEventListener('resize', () => this.resizeCanvas());
             document.addEventListener('mousemove', (e) => {
                 this.addTrailPoint(e.clientX, e.clientY);
-                if (!this.animating) {
-                    this.animating = true;
-                    this.animate();
-                }
-                clearTimeout(this.idleTimeout);
-                this.idleTimeout = setTimeout(() => {
-                    this.animating = false;
-                }, 100);
+                this.updateTrail();
             });
         }
-
+        
         addTrailPoint(x, y) {
-            this.trail.push({ x, y, life: 1, size: Math.random() * 2 + 1 });
+            this.trail.push({ x, y, life: 1 });
+            
             if (this.trail.length > this.maxTrailLength) {
                 this.trail.shift();
             }
         }
-
-        animate() {
-            if (!this.animating && this.trail.length === 0) {
-                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                return;
-            }
-
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.drawTrail();
-            requestAnimationFrame(() => this.animate());
-        }
-
-        drawTrail() {
-            const highlightRGB = getComputedStyle(document.documentElement)
-                .getPropertyValue('--highlight-rgba')
-                .trim();
-
+        
+        updateTrail() {
+            // Remove existing trail elements
+            document.querySelectorAll('.mouse-trail').forEach(el => el.remove());
+            
             this.trail.forEach((point, index) => {
-                this.ctx.beginPath();
-                this.ctx.arc(point.x, point.y, point.size * (index / this.maxTrailLength), 0, Math.PI * 2);
-                this.ctx.fillStyle = `rgba(${highlightRGB}, ${point.life * 0.2})`;
-                this.ctx.fill();
-                point.life -= 0.025;
+                const trailElement = document.createElement('div');
+                trailElement.className = 'mouse-trail';
+                trailElement.style.cssText = `
+                    position: fixed;
+                    left: ${point.x}px;
+                    top: ${point.y}px;
+                    width: ${4 + index * 2}px;
+                    height: ${4 + index * 2}px;
+                    background: rgba(0, 255, 136, ${point.life * 0.5});
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: 9999;
+                    transform: translate(-50%, -50%);
+                    transition: opacity 0.3s ease;
+                `;
+                
+                document.body.appendChild(trailElement);
+                
+                // Fade out
+                point.life -= 0.05;
+                if (point.life <= 0) {
+                    trailElement.remove();
+                }
             });
+            
             this.trail = this.trail.filter(point => point.life > 0);
         }
     }
