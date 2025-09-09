@@ -81,10 +81,11 @@ body {
     color: var(--text-color);
     text-decoration: none;
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 1.1rem; /* Increased font size */
     transition: all 0.3s ease;
     position: relative;
     padding: 0.5rem 0;
+    font-family: 'Space Mono', monospace; /* Using Space Mono as a similar alternative */
 }
 
 .nav-link:hover {

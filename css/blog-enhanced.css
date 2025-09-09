@@ -217,10 +217,13 @@
     gap: 0.5rem;
     color: var(--accent-color);
     text-decoration: none;
-    font-weight: 500;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
     transition: all 0.2s ease;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--accent-color);
+    border-radius: 5px;
 }
 
 .post-link:hover {
@@ -253,13 +256,14 @@
 }
 
 .tag-filter {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--accent-color);
+    color: var(--text-primary);
     padding: 0.7rem 1.5rem;
     border-radius: 25px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.9rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
