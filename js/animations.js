@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Floating animation for cards
     function addFloatingAnimation() {
-        const cards = document.querySelectorAll('.project-card, .skill-category, .stat-card');
+        const cards = document.querySelectorAll('.project-card, .skill-category');
         
         cards.forEach((card, index) => {
             const delay = index * 0.2;
