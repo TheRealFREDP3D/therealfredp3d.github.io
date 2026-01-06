@@ -246,137 +246,11 @@
     <section id="projects" class="projects">
         <div class="container">
             <h2 class="section-title">Featured Projects</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="assets/images/ai-visualization.png" alt="George Was Right Project">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="https://github.com/TheRealFREDP3D/George_Was_Right" target="_blank" class="project-link">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3>George Was Right</h3>
-                        <p>AI agents powered by CrewAI to analyze recent world events through the lens of themes from George Orwell's "1984".</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">CrewAI</span>
-                            <span class="tech-tag">AI</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="assets/images/ctf-background.jpg" alt="Making BanditGUI Project">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="https://github.com/TheRealFREDP3D/Making-BanditGUI" target="_blank" class="project-link">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3>Making BanditGUI</h3>
-                        <p>A GUI tool to help players complete the Bandit challenges on OverTheWire using a web browser with real SSH terminal.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Flask</span>
-                            <span class="tech-tag">CTF</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="assets/images/linux-terminal.png" alt="CTF TUI Project">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="https://github.com/TheRealFREDP3D/CTF-TUI" target="_blank" class="project-link">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3>CTF-TUI</h3>
-                        <p>Integrated environment combining terminal operations, note-taking, AI assistance, and tool management for CTF competitions.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Textual</span>
-                            <span class="tech-tag">TUI</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="assets/images/python-background.jpg" alt="PullPal Project">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="https://github.com/TheRealFREDP3D/PullPal" target="_blank" class="project-link">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3>PullPal</h3>
-                        <p>Python-based command-line tool to fetch and archive complete GitHub pull request conversations and reviews.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">GitHub API</span>
-                            <span class="tech-tag">CLI</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="assets/images/python-background.jpg" alt="Coding Exercises Project">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="https://github.com/TheRealFREDP3D/Coding-Exercises" target="_blank" class="project-link">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3>Coding Exercises</h3>
-                        <p>A collection of mixed programming exercises and solutions from various training platforms and personal learning.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Bash</span>
-                            <span class="tech-tag">Learning</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="assets/images/ai-visualization.png" alt="Gemini Poetry Project">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="https://github.com/TheRealFREDP3D/Gemini-Code-Assist-PR-Poetry" target="_blank" class="project-link">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3>Gemini PR Poetry</h3>
-                        <p>Collection of poems generated by Gemini Code Assist in PR reviews, with tools to find and collect these creative gems.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">AI</span>
-                            <span class="tech-tag">Poetry</span>
-                        </div>
-                    </div>
+            <!-- Dynamic projects grid - populated by render-projects.js -->
+            <div class="projects-grid" id="projects-grid">
+                <!-- Projects will be loaded dynamically here from blog/projects-data.js -->
+                <div style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+                    <p style="color: #666;">Loading projects...</p>
                 </div>
             </div>
         </div>
@@ -504,14 +378,20 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <p>&copy; <span id="current-year">2024</span> Frederick Pellerin (TheRealFredP3D). Always learning. Always exploring.</p>
+                <p>&copy; <span id="current-year">2024</span> Frederick Pellerin (TheRealFREDP3D). Always learning. Always exploring.</p>
                 <p>Built with passion for cybersecurity and technology.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Load projects data from auto-generated file -->
+    <script src="blog/projects-data.js"></script>
+    
+    <!-- Render projects dynamically -->
+    <script src="js/render-projects.js"></script>
+    
+    <!-- Existing scripts -->
     <script src="js/main.js"></script>
     <script src="js/animations.js"></script>
 </body>
 </html>
-
