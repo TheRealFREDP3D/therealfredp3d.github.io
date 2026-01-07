@@ -63,40 +63,102 @@ def format_date(date_string):
     except:
         return date_string
 
+def validate_string(value, max_length=500):
+    """Validate and sanitize string input."""
+    if not isinstance(value, str):
+        return ""
+    # Strip whitespace and limit length
+    return value.strip()[:max_length]
+
+def validate_url(url):
+    """Validate URL format."""
+    if not isinstance(url, str):
+        return None
+    url = url.strip()
+    # Only allow http and https URLs
+    if url.startswith(('http://', 'https://')):
+        return url
+    return None
+
+def validate_list(items):
+    """Validate and sanitize list of strings."""
+    if not isinstance(items, list):
+        return []
+    return [validate_string(item, 100) for item in items if isinstance(item, str)]
+
 def process_repositories(repos):
     """Process repositories and extract relevant data."""
     projects = []
     
+    if not isinstance(repos, list):
+        print("✗ Invalid repos data type")
+        return projects
+    
     for repo in repos:
+        # Validate repo is a dict
+        if not isinstance(repo, dict):
+            continue
+        
         # Skip forks if you want (optional)
         if repo.get("fork", False):
             continue
         
-        project = {
-            "id": repo["id"],
-            "name": repo["name"],
-            "description": repo["description"] or "No description provided",
-            "url": repo["html_url"],
-            "language": repo["language"] or "Other",
-            "stars": repo["stargazers_count"],
-            "forks": repo["forks_count"],
-            "topics": repo.get("topics", []),
-            "updated": format_date(repo["updated_at"]),
-            "homepage": repo["homepage"],
-        }
-        projects.append(project)
+        # Validate required fields
+        try:
+            repo_id = repo.get("id")
+            repo_name = validate_string(repo.get("name", "Untitled"), 100)
+            repo_description = validate_string(repo.get("description") or "No description provided", 500)
+            repo_url = validate_url(repo.get("html_url"))
+            repo_language = validate_string(repo.get("language") or "Other", 50)
+            repo_stars = int(repo.get("stargazers_count", 0))
+            repo_forks = int(repo.get("forks_count", 0))
+            repo_topics = validate_list(repo.get("topics", []))
+            repo_updated = format_date(repo.get("updated_at", ""))
+            repo_homepage = validate_url(repo.get("homepage"))
+            
+            # Skip if critical fields are missing
+            if not repo_id or not repo_name or not repo_url:
+                continue
+            
+            # Ensure numeric fields are non-negative
+            repo_stars = max(0, repo_stars)
+            repo_forks = max(0, repo_forks)
+            
+            project = {
+                "id": repo_id,
+                "name": repo_name,
+                "description": repo_description,
+                "url": repo_url,
+                "language": repo_language,
+                "stars": repo_stars,
+                "forks": repo_forks,
+                "topics": repo_topics,
+                "updated": repo_updated,
+                "homepage": repo_homepage,
+            }
+            projects.append(project)
+        except (ValueError, TypeError, AttributeError) as e:
+            print(f"⚠ Skipping invalid repository: {e}")
+            continue
     
     print(f"✓ Processed {len(projects)} repositories")
     return projects
 
 def generate_javascript_file(projects):
     """Generate the projects-data.js file."""
+    if not isinstance(projects, list):
+        print("✗ Invalid projects data type")
+        return ""
+    
     # Sort by stars (descending) and then by update date
-    projects_sorted = sorted(
-        projects,
-        key=lambda x: (-x["stars"], x["updated"]),
-        reverse=True
-    )
+    try:
+        projects_sorted = sorted(
+            projects,
+            key=lambda x: (-x.get("stars", 0), x.get("updated", "")),
+        )
+    except (TypeError, KeyError) as e:
+        print(f"⚠ Error sorting projects: {e}")
+        projects_sorted = projects
     
     # Create JavaScript content
     js_content = """// Auto-generated file - Do not edit manually
