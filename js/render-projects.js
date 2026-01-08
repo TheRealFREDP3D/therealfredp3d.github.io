@@ -1,0 +1,432 @@
+/**
+ * Dynamic Projects Renderer
+ * Renders projects from projects-data.js into the projects grid
+ * This script works with the auto-generated projects-data.js file
+ * 
+ * SECURITY: All user-supplied data is validated and sanitized to prevent XSS
+ */
+
+/**
+ * Sanitizes HTML entities to prevent XSS attacks
+ * @param {string} text - Text to sanitize
+ * @returns {string} - Sanitized text with HTML entities escaped
+ */
+function escapeHTML(text) {
+    if (typeof text !== 'string') {
+        return '';
+    }
+    
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+/**
+ * Validates and sanitizes a URL to prevent javascript: and data: protocols
+ * @param {string} url - URL to validate
+ * @param {string} defaultUrl - Default URL if validation fails
+ * @returns {string} - Validated URL or default
+ */
+function validateURL(url, defaultUrl = '#') {
+    if (typeof url !== 'string') {
+        return defaultUrl;
+    }
+    
+    const trimmedUrl = url.trim().toLowerCase();
+    
+    // Block dangerous protocols
+    if (trimmedUrl.startsWith('javascript:') || 
+        trimmedUrl.startsWith('data:') || 
+        trimmedUrl.startsWith('vbscript:')) {
+        console.warn('Blocked potentially dangerous URL:', url);
+        return defaultUrl;
+    }
+    
+    // Allow http, https, and relative URLs
+    if (trimmedUrl.startsWith('http://') || 
+        trimmedUrl.startsWith('https://') || 
+        trimmedUrl.startsWith('/') ||
+        trimmedUrl.startsWith('.')) {
+        return url;
+    }
+    
+    // Default to https if no protocol specified
+    if (!trimmedUrl.includes('://')) {
+        return 'https://' + url;
+    }
+    
+    return defaultUrl;
+}
+
+/**
+ * Validates that a value is a safe string with length limits
+ * @param {*} value - Value to validate
+ * @param {string} defaultValue - Default value if validation fails
+ * @param {number} maxLength - Maximum allowed string length
+ * @returns {string} - Validated string
+ */
+function validateString(value, defaultValue = '', maxLength = 500) {
+    try {
+        if (value === null || value === undefined) {
+            return defaultValue;
+        }
+        
+        if (typeof value !== 'string') {
+            // Try to convert to string if possible
+            const stringValue = String(value);
+            if (stringValue === '[object Object]' || stringValue === '[object Array]') {
+                return defaultValue;
+            }
+            return stringValue.trim().substring(0, maxLength);
+        }
+        
+        const trimmed = value.trim();
+        return trimmed.length === 0 ? defaultValue : trimmed.substring(0, maxLength);
+    } catch (error) {
+        console.warn('Error validating string:', error, 'Using default:', defaultValue);
+        return defaultValue;
+    }
+}
+
+/**
+ * Validates that a value is a safe number
+ * @param {*} value - Value to validate
+ * @param {number} defaultValue - Default value if validation fails
+ * @param {number} maxValue - Maximum allowed value (optional)
+ * @returns {number} - Validated number
+ */
+function validateNumber(value, defaultValue = 0, maxValue = Infinity) {
+    try {
+        if (value === null || value === undefined) {
+            return defaultValue;
+        }
+        
+        const num = parseInt(value, 10);
+        if (isNaN(num)) {
+            return defaultValue;
+        }
+        
+        const validated = Math.max(0, num);
+        return Math.min(validated, maxValue);
+    } catch (error) {
+        console.warn('Error validating number:', error, 'Using default:', defaultValue);
+        return defaultValue;
+    }
+}
+
+/**
+ * Validates and sanitizes an array of tags with error handling
+ * @param {*} tags - Tags to validate
+ * @param {number} maxTags - Maximum number of tags to allow
+ * @returns {array} - Validated tags array
+ */
+function validateTags(tags, maxTags = 5) {
+    try {
+        if (tags === null || tags === undefined) {
+            return [];
+        }
+        
+        if (!Array.isArray(tags)) {
+            console.warn('Tags is not an array:', typeof tags);
+            return [];
+        }
+        
+        if (tags.length === 0) {
+            return [];
+        }
+        
+        return tags
+            .filter((tag, index) => {
+                if (typeof tag !== 'string') {
+                    console.warn(`Tag at index ${index} is not a string:`, typeof tag);
+                    return false;
+                }
+                return tag.trim().length > 0;
+            })
+            .map(tag => validateString(tag, '', 100))
+            .slice(0, Math.max(1, maxTags));
+    } catch (error) {
+        console.warn('Error validating tags:', error);
+        return [];
+    }
+}
+
+/**
+ * Validates a project object with comprehensive error handling
+ * @param {object} project - Project object to validate
+ * @returns {object|null} - Validated project object or null if invalid
+ */
+function validateProject(project) {
+    try {
+        if (project === null || project === undefined) {
+            console.warn('Project is null or undefined');
+            return null;
+        }
+        
+        if (typeof project !== 'object') {
+            console.warn('Project is not an object:', typeof project);
+            return null;
+        }
+        
+        // Validate required fields exist
+        if (!project.hasOwnProperty('name') || !project.hasOwnProperty('url')) {
+            console.warn('Project missing required fields (name or url)');
+            return null;
+        }
+        
+        const validatedProject = {
+            name: validateString(project.name, 'Untitled Project', 100),
+            description: validateString(project.description, 'No description available', 500),
+            url: validateURL(project.url, 'https://github.com'),
+            homepage: validateURL(project.homepage, ''),
+            language: validateString(project.language, 'Unknown', 50),
+            stars: validateNumber(project.stars, 0, 1000000),
+            forks: validateNumber(project.forks, 0, 1000000),
+            topics: validateTags(project.topics, 3),
+            updated: validateString(project.updated, 'Unknown', 50),
+        };
+        
+        // Ensure name is not empty after validation
+        if (!validatedProject.name || validatedProject.name.trim().length === 0) {
+            console.warn('Project name is empty after validation');
+            return null;
+        }
+        
+        return validatedProject;
+    } catch (error) {
+        console.error('Error validating project:', error, project);
+        return null;
+    }
+}
+
+function renderProjects() {
+    try {
+        const projectsGrid = document.getElementById('projects-grid');
+        
+        // Check if grid exists and data is loaded
+        if (!projectsGrid) {
+            console.error('Projects grid element not found');
+            return;
+        }
+        
+        if (!window.projectsData) {
+            console.warn('Projects data not loaded yet');
+            projectsGrid.textContent = 'Loading projects...';
+            return;
+        }
+        
+        if (!Array.isArray(window.projectsData)) {
+            console.error('Projects data is not an array:', typeof window.projectsData);
+            projectsGrid.textContent = 'Error: Invalid projects data format';
+            return;
+        }
+        
+        if (window.projectsData.length === 0) {
+            console.warn('Projects data is empty');
+            projectsGrid.textContent = 'No projects available';
+            return;
+        }
+    } catch (error) {
+        console.error('Error initializing projects renderer:', error);
+        const projectsGrid = document.getElementById('projects-grid');
+        if (projectsGrid) {
+            projectsGrid.textContent = 'Error loading projects';
+        }
+        return;
+    }
+    
+    // Clear existing content
+    projectsGrid.innerHTML = '';
+    
+    // Color palette for project cards
+    const gradients = [
+        'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+        'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+        'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+        'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+        'linear-gradient(135deg, #30cfd0 0%, #330867 100%)',
+    ];
+    
+    // Language to icon mapping
+    const languageIcons = {
+        'Python': '🐍',
+        'JavaScript': '⚡',
+        'TypeScript': '📘',
+        'Java': '☕',
+        'C++': '⚙️',
+        'C': '🔧',
+        'Go': '🐹',
+        'Rust': '🦀',
+        'Ruby': '💎',
+        'PHP': '🐘',
+        'HTML': '🏗️',
+        'CSS': '🎨',
+        'Shell': '💻',
+        'Dockerfile': '🐳',
+        'Markdown': '📝',
+    };
+    
+    // Render each project
+    let successCount = 0;
+    let errorCount = 0;
+    
+    window.projectsData.forEach((project, index) => {
+        try {
+            // Validate project data
+            const validatedProject = validateProject(project);
+            if (!validatedProject) {
+                console.warn(`Skipping invalid project at index ${index}`);
+                errorCount++;
+                return;
+            }
+        
+        const projectCard = document.createElement('div');
+        projectCard.className = 'project-card';
+        
+        // Select gradient based on index
+        const gradient = gradients[index % gradients.length];
+        const icon = languageIcons[validatedProject.language] || '📦';
+        
+        // Format description (truncate if too long)
+        const description = validatedProject.description.length > 120 
+            ? validatedProject.description.substring(0, 120) + '...' 
+            : validatedProject.description;
+        
+        // Build tech tags (limit to 3)
+        const techTags = [validatedProject.language];
+        if (validatedProject.topics && validatedProject.topics.length > 0) {
+            techTags.push(...validatedProject.topics.slice(0, 2));
+        }
+        
+        // Create image container
+        try {
+            const imageDiv = document.createElement('div');
+            imageDiv.className = 'project-image';
+            
+            const placeholderDiv = document.createElement('div');
+            placeholderDiv.className = 'project-placeholder';
+            placeholderDiv.style.background = gradient;
+            
+            const languageDiv = document.createElement('div');
+            languageDiv.className = 'project-language';
+            // Use textContent for language to prevent XSS
+            const languageText = validatedProject.language ? `${icon} ${validatedProject.language}` : icon;
+            languageDiv.textContent = languageText;
+        
+        placeholderDiv.appendChild(languageDiv);
+        
+        // Create overlay with links
+        const overlayDiv = document.createElement('div');
+        overlayDiv.className = 'project-overlay';
+        
+        const linksDiv = document.createElement('div');
+        linksDiv.className = 'project-links';
+        
+        // Create GitHub link
+        const githubLink = document.createElement('a');
+        githubLink.href = validatedProject.url;
+        githubLink.target = '_blank';
+        githubLink.rel = 'noopener noreferrer';
+        githubLink.className = 'project-link';
+        githubLink.title = 'View on GitHub';
+        githubLink.innerHTML = '<i class="fab fa-github"></i>';
+        linksDiv.appendChild(githubLink);
+        
+        // Create homepage link if available
+        if (validatedProject.homepage) {
+            const homepageLink = document.createElement('a');
+            homepageLink.href = validatedProject.homepage;
+            homepageLink.target = '_blank';
+            homepageLink.rel = 'noopener noreferrer';
+            homepageLink.className = 'project-link';
+            homepageLink.title = 'Visit Website';
+            homepageLink.innerHTML = '<i class="fas fa-globe"></i>';
+            linksDiv.appendChild(homepageLink);
+        }
+        
+        overlayDiv.appendChild(linksDiv);
+        imageDiv.appendChild(placeholderDiv);
+        imageDiv.appendChild(overlayDiv);
+        
+        // Create content section
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'project-content';
+        
+        const titleH3 = document.createElement('h3');
+        titleH3.textContent = validatedProject.name;
+        
+        const descriptionP = document.createElement('p');
+        descriptionP.textContent = description;
+        
+        const metaDiv = document.createElement('div');
+        metaDiv.className = 'project-meta';
+        
+        const statsSpan = document.createElement('span');
+        statsSpan.className = 'project-stats';
+        statsSpan.innerHTML = `<i class="fas fa-star"></i> ${escapeHTML(String(validatedProject.stars))} <i class="fas fa-code-branch"></i> ${escapeHTML(String(validatedProject.forks))}`;
+        
+        const updatedSpan = document.createElement('span');
+        updatedSpan.className = 'project-updated';
+        updatedSpan.textContent = `Updated: ${validatedProject.updated}`;
+        
+        metaDiv.appendChild(statsSpan);
+        metaDiv.appendChild(updatedSpan);
+        
+        // Create tech tags
+        const techDiv = document.createElement('div');
+        techDiv.className = 'project-tech';
+        
+        techTags.forEach(tag => {
+            const tagSpan = document.createElement('span');
+            tagSpan.className = 'tech-tag';
+            tagSpan.textContent = tag;
+            techDiv.appendChild(tagSpan);
+        });
+        
+            contentDiv.appendChild(titleH3);
+            contentDiv.appendChild(descriptionP);
+            contentDiv.appendChild(metaDiv);
+            contentDiv.appendChild(techDiv);
+            
+            projectCard.appendChild(imageDiv);
+            projectCard.appendChild(contentDiv);
+            
+            projectsGrid.appendChild(projectCard);
+            successCount++;
+        } catch (error) {
+            console.error(`Error rendering project at index ${index}:`, error, project);
+            errorCount++;
+        }
+        } catch (error) {
+            console.error(`Error rendering project at index ${index}:`, error, project);
+            errorCount++;
+        }
+    });
+    
+    const totalProjects = window.projectsData.length;
+    const message = `✓ Rendered ${successCount}/${totalProjects} projects`;
+    
+    if (errorCount > 0) {
+        console.warn(`${message} (${errorCount} errors)`);
+    } else {
+        console.log(message);
+    }
+    
+    // Display warning if some projects failed to render
+    if (errorCount > 0 && successCount === 0) {
+        projectsGrid.innerHTML = '<p style="color: #ff6b6b; padding: 2rem;">Error: No projects could be rendered. Check console for details.</p>';
+    } else if (errorCount > 0) {
+        console.warn(`Warning: ${errorCount} project(s) failed to render. Check console for details.`);
+    }
+}
+
+// Render projects when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderProjects);
+} else {
+    renderProjects();
+}
+
+// Re-render if projects data is updated dynamically
+window.addEventListener('projectsDataUpdated', renderProjects);
