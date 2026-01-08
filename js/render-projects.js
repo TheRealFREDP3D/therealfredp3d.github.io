@@ -59,82 +59,179 @@ function validateURL(url, defaultUrl = '#') {
 }
 
 /**
- * Validates that a value is a safe string
+ * Validates that a value is a safe string with length limits
  * @param {*} value - Value to validate
  * @param {string} defaultValue - Default value if validation fails
+ * @param {number} maxLength - Maximum allowed string length
  * @returns {string} - Validated string
  */
-function validateString(value, defaultValue = '') {
-    if (typeof value !== 'string') {
+function validateString(value, defaultValue = '', maxLength = 500) {
+    try {
+        if (value === null || value === undefined) {
+            return defaultValue;
+        }
+        
+        if (typeof value !== 'string') {
+            // Try to convert to string if possible
+            const stringValue = String(value);
+            if (stringValue === '[object Object]' || stringValue === '[object Array]') {
+                return defaultValue;
+            }
+            return stringValue.trim().substring(0, maxLength);
+        }
+        
+        const trimmed = value.trim();
+        return trimmed.length === 0 ? defaultValue : trimmed.substring(0, maxLength);
+    } catch (error) {
+        console.warn('Error validating string:', error, 'Using default:', defaultValue);
         return defaultValue;
     }
-    return value.trim();
 }
 
 /**
  * Validates that a value is a safe number
  * @param {*} value - Value to validate
  * @param {number} defaultValue - Default value if validation fails
+ * @param {number} maxValue - Maximum allowed value (optional)
  * @returns {number} - Validated number
  */
-function validateNumber(value, defaultValue = 0) {
-    const num = parseInt(value, 10);
-    return isNaN(num) ? defaultValue : Math.max(0, num);
+function validateNumber(value, defaultValue = 0, maxValue = Infinity) {
+    try {
+        if (value === null || value === undefined) {
+            return defaultValue;
+        }
+        
+        const num = parseInt(value, 10);
+        if (isNaN(num)) {
+            return defaultValue;
+        }
+        
+        const validated = Math.max(0, num);
+        return Math.min(validated, maxValue);
+    } catch (error) {
+        console.warn('Error validating number:', error, 'Using default:', defaultValue);
+        return defaultValue;
+    }
 }
 
 /**
- * Validates and sanitizes an array of tags
+ * Validates and sanitizes an array of tags with error handling
  * @param {*} tags - Tags to validate
  * @param {number} maxTags - Maximum number of tags to allow
  * @returns {array} - Validated tags array
  */
 function validateTags(tags, maxTags = 5) {
-    if (!Array.isArray(tags)) {
+    try {
+        if (tags === null || tags === undefined) {
+            return [];
+        }
+        
+        if (!Array.isArray(tags)) {
+            console.warn('Tags is not an array:', typeof tags);
+            return [];
+        }
+        
+        if (tags.length === 0) {
+            return [];
+        }
+        
+        return tags
+            .filter((tag, index) => {
+                if (typeof tag !== 'string') {
+                    console.warn(`Tag at index ${index} is not a string:`, typeof tag);
+                    return false;
+                }
+                return tag.trim().length > 0;
+            })
+            .map(tag => validateString(tag, '', 100))
+            .slice(0, Math.max(1, maxTags));
+    } catch (error) {
+        console.warn('Error validating tags:', error);
         return [];
     }
-    
-    return tags
-        .filter(tag => typeof tag === 'string' && tag.trim().length > 0)
-        .map(tag => validateString(tag))
-        .slice(0, maxTags);
 }
 
 /**
- * Validates a project object
+ * Validates a project object with comprehensive error handling
  * @param {object} project - Project object to validate
- * @returns {object} - Validated project object
+ * @returns {object|null} - Validated project object or null if invalid
  */
 function validateProject(project) {
-    if (typeof project !== 'object' || project === null) {
+    try {
+        if (project === null || project === undefined) {
+            console.warn('Project is null or undefined');
+            return null;
+        }
+        
+        if (typeof project !== 'object') {
+            console.warn('Project is not an object:', typeof project);
+            return null;
+        }
+        
+        // Validate required fields exist
+        if (!project.hasOwnProperty('name') || !project.hasOwnProperty('url')) {
+            console.warn('Project missing required fields (name or url)');
+            return null;
+        }
+        
+        const validatedProject = {
+            name: validateString(project.name, 'Untitled Project', 100),
+            description: validateString(project.description, 'No description available', 500),
+            url: validateURL(project.url, 'https://github.com'),
+            homepage: validateURL(project.homepage, ''),
+            language: validateString(project.language, 'Unknown', 50),
+            stars: validateNumber(project.stars, 0, 1000000),
+            forks: validateNumber(project.forks, 0, 1000000),
+            topics: validateTags(project.topics, 3),
+            updated: validateString(project.updated, 'Unknown', 50),
+        };
+        
+        // Ensure name is not empty after validation
+        if (!validatedProject.name || validatedProject.name.trim().length === 0) {
+            console.warn('Project name is empty after validation');
+            return null;
+        }
+        
+        return validatedProject;
+    } catch (error) {
+        console.error('Error validating project:', error, project);
         return null;
     }
-    
-    return {
-        name: validateString(project.name, 'Untitled Project'),
-        description: validateString(project.description, 'No description available'),
-        url: validateURL(project.url, 'https://github.com'),
-        homepage: validateURL(project.homepage, ''),
-        language: validateString(project.language, 'Unknown'),
-        stars: validateNumber(project.stars, 0),
-        forks: validateNumber(project.forks, 0),
-        topics: validateTags(project.topics, 3),
-        updated: validateString(project.updated, 'Unknown'),
-    };
 }
 
 function renderProjects() {
-    const projectsGrid = document.getElementById('projects-grid');
-    
-    // Check if grid exists and data is loaded
-    if (!projectsGrid) {
-        console.warn('Projects grid element not found');
-        return;
-    }
-    
-    if (!window.projectsData || !Array.isArray(window.projectsData) || window.projectsData.length === 0) {
-        console.warn('Projects data not available or invalid');
-        // Use textContent instead of innerHTML to prevent XSS
-        projectsGrid.textContent = 'No projects available';
+    try {
+        const projectsGrid = document.getElementById('projects-grid');
+        
+        // Check if grid exists and data is loaded
+        if (!projectsGrid) {
+            console.error('Projects grid element not found');
+            return;
+        }
+        
+        if (!window.projectsData) {
+            console.warn('Projects data not loaded yet');
+            projectsGrid.textContent = 'Loading projects...';
+            return;
+        }
+        
+        if (!Array.isArray(window.projectsData)) {
+            console.error('Projects data is not an array:', typeof window.projectsData);
+            projectsGrid.textContent = 'Error: Invalid projects data format';
+            return;
+        }
+        
+        if (window.projectsData.length === 0) {
+            console.warn('Projects data is empty');
+            projectsGrid.textContent = 'No projects available';
+            return;
+        }
+    } catch (error) {
+        console.error('Error initializing projects renderer:', error);
+        const projectsGrid = document.getElementById('projects-grid');
+        if (projectsGrid) {
+            projectsGrid.textContent = 'Error loading projects';
+        }
         return;
     }
     
@@ -171,13 +268,18 @@ function renderProjects() {
     };
     
     // Render each project
+    let successCount = 0;
+    let errorCount = 0;
+    
     window.projectsData.forEach((project, index) => {
-        // Validate project data
-        const validatedProject = validateProject(project);
-        if (!validatedProject) {
-            console.warn('Invalid project data at index', index);
-            return;
-        }
+        try {
+            // Validate project data
+            const validatedProject = validateProject(project);
+            if (!validatedProject) {
+                console.warn(`Skipping invalid project at index ${index}`);
+                errorCount++;
+                return;
+            }
         
         const projectCard = document.createElement('div');
         projectCard.className = 'project-card';
@@ -198,17 +300,19 @@ function renderProjects() {
         }
         
         // Create image container
-        const imageDiv = document.createElement('div');
-        imageDiv.className = 'project-image';
-        
-        const placeholderDiv = document.createElement('div');
-        placeholderDiv.className = 'project-placeholder';
-        placeholderDiv.style.background = gradient;
-        
-        const languageDiv = document.createElement('div');
-        languageDiv.className = 'project-language';
-        // Use textContent for language to prevent XSS
-        languageDiv.textContent = `${icon} ${validatedProject.language}`;
+        try {
+            const imageDiv = document.createElement('div');
+            imageDiv.className = 'project-image';
+            
+            const placeholderDiv = document.createElement('div');
+            placeholderDiv.className = 'project-placeholder';
+            placeholderDiv.style.background = gradient;
+            
+            const languageDiv = document.createElement('div');
+            languageDiv.className = 'project-language';
+            // Use textContent for language to prevent XSS
+            const languageText = validatedProject.language ? `${icon} ${validatedProject.language}` : icon;
+            languageDiv.textContent = languageText;
         
         placeholderDiv.appendChild(languageDiv);
         
@@ -280,18 +384,41 @@ function renderProjects() {
             techDiv.appendChild(tagSpan);
         });
         
-        contentDiv.appendChild(titleH3);
-        contentDiv.appendChild(descriptionP);
-        contentDiv.appendChild(metaDiv);
-        contentDiv.appendChild(techDiv);
-        
-        projectCard.appendChild(imageDiv);
-        projectCard.appendChild(contentDiv);
-        
-        projectsGrid.appendChild(projectCard);
+            contentDiv.appendChild(titleH3);
+            contentDiv.appendChild(descriptionP);
+            contentDiv.appendChild(metaDiv);
+            contentDiv.appendChild(techDiv);
+            
+            projectCard.appendChild(imageDiv);
+            projectCard.appendChild(contentDiv);
+            
+            projectsGrid.appendChild(projectCard);
+            successCount++;
+        } catch (error) {
+            console.error(`Error rendering project at index ${index}:`, error, project);
+            errorCount++;
+        }
+        } catch (error) {
+            console.error(`Error rendering project at index ${index}:`, error, project);
+            errorCount++;
+        }
     });
     
-    console.log(`✓ Rendered ${window.projectsData.length} projects`);
+    const totalProjects = window.projectsData.length;
+    const message = `✓ Rendered ${successCount}/${totalProjects} projects`;
+    
+    if (errorCount > 0) {
+        console.warn(`${message} (${errorCount} errors)`);
+    } else {
+        console.log(message);
+    }
+    
+    // Display warning if some projects failed to render
+    if (errorCount > 0 && successCount === 0) {
+        projectsGrid.innerHTML = '<p style="color: #ff6b6b; padding: 2rem;">Error: No projects could be rendered. Check console for details.</p>';
+    } else if (errorCount > 0) {
+        console.warn(`Warning: ${errorCount} project(s) failed to render. Check console for details.`);
+    }
 }
 
 // Render projects when DOM is ready

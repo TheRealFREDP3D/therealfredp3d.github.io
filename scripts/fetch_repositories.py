@@ -56,35 +56,86 @@ def fetch_repositories():
         return []
 
 def format_date(date_string):
-    """Format ISO date to readable format."""
+    """Format ISO date to readable format with error handling."""
     try:
+        if not isinstance(date_string, str) or not date_string:
+            return "Unknown"
+        
         date_obj = datetime.fromisoformat(date_string.replace('Z', '+00:00'))
         return date_obj.strftime("%Y-%m-%d")
-    except:
-        return date_string
+    except (ValueError, TypeError, AttributeError) as e:
+        print(f"⚠ Error formatting date '{date_string}': {e}")
+        return "Unknown"
 
 def validate_string(value, max_length=500):
-    """Validate and sanitize string input."""
-    if not isinstance(value, str):
+    """Validate and sanitize string input with error handling."""
+    try:
+        if value is None:
+            return ""
+        
+        if not isinstance(value, str):
+            # Try to convert to string if possible
+            value = str(value)
+            if value in ('[object Object]', '[object Array]'):
+                return ""
+        
+        trimmed = value.strip()
+        if not trimmed:
+            return ""
+        
+        return trimmed[:max_length]
+    except (TypeError, AttributeError) as e:
+        print(f"⚠ Error validating string: {e}")
         return ""
-    # Strip whitespace and limit length
-    return value.strip()[:max_length]
 
 def validate_url(url):
-    """Validate URL format."""
-    if not isinstance(url, str):
+    """Validate URL format with error handling."""
+    try:
+        if url is None:
+            return None
+        
+        if not isinstance(url, str):
+            return None
+        
+        url = url.strip()
+        if not url:
+            return None
+        
+        # Only allow http and https URLs
+        if url.startswith(('http://', 'https://')):
+            return url
+        
         return None
-    url = url.strip()
-    # Only allow http and https URLs
-    if url.startswith(('http://', 'https://')):
-        return url
-    return None
+    except (TypeError, AttributeError) as e:
+        print(f"⚠ Error validating URL: {e}")
+        return None
 
 def validate_list(items):
-    """Validate and sanitize list of strings."""
-    if not isinstance(items, list):
+    """Validate and sanitize list of strings with error handling."""
+    try:
+        if items is None:
+            return []
+        
+        if not isinstance(items, list):
+            print(f"⚠ Expected list but got {type(items).__name__}")
+            return []
+        
+        if not items:
+            return []
+        
+        validated = []
+        for item in items:
+            if isinstance(item, str):
+                validated_item = validate_string(item, 100)
+                if validated_item:
+                    validated.append(validated_item)
+            else:
+                print(f"⚠ Skipping non-string item in list: {type(item).__name__}")
+        
+        return validated
+    except (TypeError, AttributeError) as e:
+        print(f"⚠ Error validating list: {e}")
         return []
-    return [validate_string(item, 100) for item in items if isinstance(item, str)]
 
 def process_repositories(repos):
     """Process repositories and extract relevant data."""
@@ -110,14 +161,35 @@ def process_repositories(repos):
             repo_description = validate_string(repo.get("description") or "No description provided", 500)
             repo_url = validate_url(repo.get("html_url"))
             repo_language = validate_string(repo.get("language") or "Other", 50)
-            repo_stars = int(repo.get("stargazers_count", 0))
-            repo_forks = int(repo.get("forks_count", 0))
+            
+            # Safely convert numeric fields
+            try:
+                repo_stars = int(repo.get("stargazers_count", 0))
+            except (ValueError, TypeError):
+                print(f"⚠ Invalid stars count for repo {repo_name}: {repo.get('stargazers_count')}")
+                repo_stars = 0
+            
+            try:
+                repo_forks = int(repo.get("forks_count", 0))
+            except (ValueError, TypeError):
+                print(f"⚠ Invalid forks count for repo {repo_name}: {repo.get('forks_count')}")
+                repo_forks = 0
+            
             repo_topics = validate_list(repo.get("topics", []))
             repo_updated = format_date(repo.get("updated_at", ""))
             repo_homepage = validate_url(repo.get("homepage"))
             
-            # Skip if critical fields are missing
-            if not repo_id or not repo_name or not repo_url:
+            # Skip if critical fields are missing or invalid
+            if not repo_id:
+                print(f"⚠ Skipping repository with missing ID")
+                continue
+            
+            if not repo_name or not repo_name.strip():
+                print(f"⚠ Skipping repository with empty name")
+                continue
+            
+            if not repo_url:
+                print(f"⚠ Skipping repository '{repo_name}' with invalid URL")
                 continue
             
             # Ensure numeric fields are non-negative
@@ -137,8 +209,8 @@ def process_repositories(repos):
                 "homepage": repo_homepage,
             }
             projects.append(project)
-        except (ValueError, TypeError, AttributeError) as e:
-            print(f"⚠ Skipping invalid repository: {e}")
+        except (ValueError, TypeError, AttributeError, KeyError) as e:
+            print(f"⚠ Error processing repository: {e}")
             continue
     
     print(f"✓ Processed {len(projects)} repositories")
@@ -152,15 +224,25 @@ def generate_javascript_file(projects):
     
     # Sort by stars (descending) and then by update date
     try:
+        if not projects:
+            print("⚠ No projects to sort")
+            return ""
+        
         projects_sorted = sorted(
             projects,
             key=lambda x: (-x.get("stars", 0), x.get("updated", "")),
         )
-    except (TypeError, KeyError) as e:
+    except (TypeError, KeyError, AttributeError) as e:
         print(f"⚠ Error sorting projects: {e}")
         projects_sorted = projects
     
     # Create JavaScript content
+    try:
+        projects_json = json.dumps(projects_sorted, indent=2)
+    except (TypeError, ValueError) as e:
+        print(f"✗ Error serializing projects to JSON: {e}")
+        return ""
+    
     js_content = """// Auto-generated file - Do not edit manually
 // This file is generated by scripts/fetch_repositories.py
 // Last updated: {timestamp}
@@ -199,7 +281,7 @@ if (typeof module !== 'undefined' && module.exports) {{
 }}
 """.format(
         timestamp=datetime.now().isoformat(),
-        projects_json=json.dumps(projects_sorted, indent=2)
+        projects_json=projects_json
     )
     
     return js_content
@@ -220,28 +302,49 @@ def write_output_file(content):
         return False
 
 def main():
-    """Main execution function."""
-    print("🔄 Fetching GitHub repositories...")
-    
-    repos = fetch_repositories()
-    if not repos:
-        print("✗ No repositories found or error occurred")
-        return False
-    
-    projects = process_repositories(repos)
-    if not projects:
-        print("✗ No projects to process")
-        return False
-    
-    js_content = generate_javascript_file(projects)
-    
-    if write_output_file(js_content):
-        print("✅ Successfully generated projects-data.js")
-        return True
-    else:
-        print("❌ Failed to generate projects-data.js")
+    """Main execution function with comprehensive error handling."""
+    try:
+        print("🔄 Fetching GitHub repositories...")
+        
+        repos = fetch_repositories()
+        if not repos:
+            print("✗ No repositories found or error occurred")
+            return False
+        
+        print(f"📦 Processing {len(repos)} repositories...")
+        projects = process_repositories(repos)
+        if not projects:
+            print("✗ No valid projects to process")
+            return False
+        
+        print(f"✓ Successfully validated {len(projects)} projects")
+        
+        js_content = generate_javascript_file(projects)
+        if not js_content:
+            print("✗ Failed to generate JavaScript content")
+            return False
+        
+        if write_output_file(js_content):
+            print(f"✅ Successfully generated projects-data.js ({len(projects)} projects)")
+            return True
+        else:
+            print("❌ Failed to generate projects-data.js")
+            return False
+    except Exception as e:
+        print(f"❌ Unexpected error in main: {e}")
+        import traceback
+        traceback.print_exc()
         return False
 
 if __name__ == "__main__":
-    success = main()
-    exit(0 if success else 1)
+    try:
+        success = main()
+        exit(0 if success else 1)
+    except KeyboardInterrupt:
+        print("\n⚠ Script interrupted by user")
+        exit(130)
+    except Exception as e:
+        print(f"❌ Fatal error: {e}")
+        import traceback
+        traceback.print_exc()
+        exit(1)
