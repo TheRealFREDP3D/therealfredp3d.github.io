@@ -95,12 +95,22 @@ class BlogManager {
             });
         });
 
+        // Search functionality
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                this.handleSearch(e.target.value);
+            });
+        }
+
         // Tag clicks in posts
         document.addEventListener('click', (e) => {
             if (e.target.classList.contains('post-tag')) {
                 const tag = e.target.dataset.tag;
                 this.filterPosts(tag);
-                this.updateActiveFilter(document.querySelector(`[data-tag="${tag}"]`));
+                // Find matching filter button or clear active state
+                const matchingButton = document.querySelector(`.tag-filter[data-tag="${tag}"]`);
+                this.updateActiveFilter(matchingButton);
             }
         });
 
@@ -139,6 +149,38 @@ class BlogManager {
 
         // Add reading progress indicator
         this.setupReadingProgress();
+    }
+
+    handleSearch(query) {
+        this.searchQuery = query.toLowerCase().trim();
+        
+        if (this.searchQuery === '') {
+            this.filteredPosts = this.currentFilter === 'all' 
+                ? [...this.posts] 
+                : this.posts.filter(post => 
+                    post.tags.some(postTag => 
+                        postTag.toLowerCase() === this.currentFilter.toLowerCase()
+                    )
+                );
+        } else {
+            this.filteredPosts = this.posts.filter(post => {
+                const matchesSearch = post.title.toLowerCase().includes(this.searchQuery) ||
+                                    post.excerpt.toLowerCase().includes(this.searchQuery) ||
+                                    post.tags.some(tag => tag.toLowerCase().includes(this.searchQuery));
+                
+                if (this.currentFilter === 'all') {
+                    return matchesSearch;
+                } else {
+                    const matchesFilter = post.tags.some(postTag => 
+                        postTag.toLowerCase() === this.currentFilter.toLowerCase()
+                    );
+                    return matchesSearch && matchesFilter;
+                }
+            });
+        }
+        
+        this.renderAllPosts();
+        this.animatePostCards();
     }
 
     filterPosts(tag) {
@@ -304,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
     new BlogManager();
 });
 
-// Add some utility functions for enhanced interactivity
+// Initialize hover effects after posts are rendered
 function addHoverEffects() {
     // Add particle effects on hover for post cards
     document.querySelectorAll('.post-card').forEach(card => {
@@ -323,6 +365,9 @@ function addHoverEffects() {
     });
 }
 
-// Initialize hover effects after a short delay
-setTimeout(addHoverEffects, 1000);
+// Initialize hover effects after BlogManager renders posts
+document.addEventListener('DOMContentLoaded', () => {
+    // Wait for BlogManager to finish rendering
+    setTimeout(addHoverEffects, 500);
+});
 
