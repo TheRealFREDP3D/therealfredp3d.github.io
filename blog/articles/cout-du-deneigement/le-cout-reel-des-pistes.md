@@ -18,7 +18,7 @@ La Ville de Québec dépense des millions pour déneiger ses pistes cyclables hi
 
 **La réalité des chiffres :**
 - **Achalandage hivernal en chute libre** : Les compteurs automatiques révèlent une baisse de **97 %** de la fréquentation en hiver, avec seulement **500 passages quotidiens** sur l’ensemble du réseau.
-- **Coût par passage** : Avec un budget supplémentaire de **200 000 $** en 2026 pour le déneigement des nouvelles sections (dont Chemin Sainte-Foy), et environ **60 000 passages saisonniers**, au coût réel de l'an passé, le coût s'est bonifié de **3,33 $ par utilisation** donc plus de **6$ par jour pour chaque cycliste**— loin du « 25 fois moins cher » brandi par l’administration.
+- **Coût par passage** : Avec un budget supplémentaire de 200 000 $ en 2026 pour le déneigement des nouvelles sections (dont Chemin Sainte-Foy), et environ **60 000 passages saisonniers**, au coût réel de l'an passé, le coût s'est bonifié de **3,33 $ par utilisation** donc plus de **6$ par jour pour chaque cycliste**— loin du « 25 fois moins cher » brandi par l’administration.
 
 **Problème :** Le maire compare des coûts **annuels et globaux** (kilomètre parcouru) à une réalité **saisonnière et locale** (passage hivernal), ce qui fausse la perception de l’efficacité des dépenses.
 
@@ -149,5 +149,6 @@ Route de l'Église
 
   **Vidéo de présentation**📹 
 
+  ttps://www.youtube.com/watch?v=MsKeiUNAIZc
 
 
