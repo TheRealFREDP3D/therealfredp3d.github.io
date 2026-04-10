@@ -326,6 +326,12 @@
                 
                 // Simple markdown parser
                 let html = markdown
+                    // Images - handle first to avoid conflicts with other markdown
+                    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, src) => {
+                        // If it's a relative path starting with images/, make it absolute from current directory
+                        const imageSrc = src.startsWith('images/') ? src : `images/${src}`;
+                        return `<img src="${imageSrc}" alt="${alt}" loading="lazy" style="max-width: 100%; height: auto; border-radius: 10px; margin: 2rem 0; display: block;">`;
+                    })
                     // Headers
                     .replace(/^### (.*$)/gim, '<h3>$1</h3>')
                     .replace(/^## (.*$)/gim, '<h2>$1</h2>')
@@ -344,13 +350,7 @@
                     // Blockquotes
                     .replace(/^> (.+)$/gim, '<blockquote>$1</blockquote>')
                     // Horizontal rules
-                    .replace(/^---$/gim, '<hr>')
-                    // Images - fix relative paths
-                    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, src) => {
-                        // If it's a relative path starting with images/, make it absolute from current directory
-                        const imageSrc = src.startsWith('images/') ? src : `images/${src}`;
-                        return `<img src="${imageSrc}" alt="${alt}" loading="lazy">`;
-                    });
+                    .replace(/^---$/gim, '<hr>');
                 
                 // Wrap in paragraphs
                 html = '<p>' + html + '</p>';
@@ -363,6 +363,17 @@
                 html = html.replace(/<p>(<img.*?>)<\/p>/g, '$1');
                 
                 document.getElementById('article-content').innerHTML = html;
+                
+                // Add error handling for images
+                document.querySelectorAll('.article-content img').forEach(img => {
+                    img.onerror = function() {
+                        console.error('Failed to load image:', this.src);
+                        this.style.display = 'none';
+                    };
+                    img.onload = function() {
+                        console.log('Successfully loaded image:', this.src);
+                    };
+                });
             } catch (error) {
                 console.error('Error loading article:', error);
                 document.getElementById('article-content').innerHTML = '<p>Erreur lors du chargement de l\'article.</p>';
