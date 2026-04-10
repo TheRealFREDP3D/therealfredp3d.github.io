@@ -1,9 +1,14 @@
-## Déneigement des pistes cyclables : quand les chiffres demontre que le maire ment
+## Déneigement des pistes cyclables : quand les chiffres démontre que le maire ment
+
+![Header](header.png)
 
 ---
 
 ### **Introduction**
+
 Depuis 2023, la Ville de Québec vante son « réseau blanc », un réseau cyclable hivernal censé incarner une mobilité durable et économique. Pourtant, une analyse des budgets municipaux, des rapports d’achalandage et des contrats de déneigement révèle un écart frappant entre les affirmations du maire Bruno Marchand et la réalité des coûts supportés par les contribuables. À travers l’exemple emblématique du Chemin Sainte-Foy, on découvre comment des « optimisations » budgétaires annoncées masquent en réalité des dépenses ciblées, peu transparentes et à l’efficacité discutable.
+
+La Ville de Québec dépense des millions pour déneiger ses pistes cyclables hivernales, mais les chiffres officiels ne collent pas avec la réalité. En analysant les budgets municipaux, les rapports d'achalandage et les contrats de déneigement, on peut démontrer comment le maire Bruno Marchand utilise des arguments trompeurs pour justifier ces dépenses et masquer la réalité budgétaire pour tromper les contribuables.
 
 ---
 
@@ -139,3 +144,10 @@ Route de l'Église
 - Entrevues et articles du Journal de Québec et FM93 (mai 2024)
 - Données d’achalandage (2025-2026)
   [https://villedequebec.eco-counter.com/site/300052537](https://villedequebec.eco-counter.com/site/300052537)
+
+  ---
+
+  **Vidéo de présentation**📹 
+
+
+
