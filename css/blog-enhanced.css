@@ -179,6 +179,93 @@
     font-size: 0.7rem;
 }
 
+/* Highlighted article styles */
+.post-card.highlighted {
+    position: relative;
+    border: 2px solid var(--accent-color);
+    background: linear-gradient(135deg, rgba(0, 255, 0, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.3), 0 10px 40px rgba(0, 0, 0, 0.4);
+    animation: highlightPulse 3s ease-in-out infinite;
+}
+
+.highlight-glow {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--accent-color), transparent, var(--accent-color));
+    border-radius: 20px;
+    z-index: -1;
+    animation: glowRotate 4s linear infinite;
+    opacity: 0.6;
+}
+
+.post-highlight-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.4rem 0.8rem;
+    background: linear-gradient(135deg, var(--accent-color), rgba(0, 255, 0, 0.7));
+    border-radius: 20px;
+    font-size: 0.75rem;
+    color: #000;
+    font-weight: 600;
+    margin-left: auto;
+    box-shadow: 0 4px 15px rgba(0, 255, 0, 0.4);
+    animation: badgeShine 2s ease-in-out infinite;
+}
+
+.post-highlight-badge i {
+    font-size: 0.8rem;
+    animation: starSpin 2s linear infinite;
+}
+
+.post-card.highlighted .post-title {
+    background: linear-gradient(135deg, var(--accent-color), #fff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+.post-card.highlighted:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 0 40px rgba(0, 255, 0, 0.5), 0 15px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* Animations */
+@keyframes highlightPulse {
+    0%, 100% { 
+        box-shadow: 0 0 30px rgba(0, 255, 0, 0.3), 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+    50% { 
+        box-shadow: 0 0 40px rgba(0, 255, 0, 0.5), 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+}
+
+@keyframes glowRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes badgeShine {
+    0%, 100% { 
+        box-shadow: 0 4px 15px rgba(0, 255, 0, 0.4);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 6px 20px rgba(0, 255, 0, 0.6);
+        transform: scale(1.05);
+    }
+}
+
+@keyframes starSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 .post-title {
     font-size: 1.5rem;
     font-weight: 600;

@@ -46,12 +46,17 @@ class BlogManager {
         ).join('');
 
         const isLocal = post.local || false;
+        const isHighlighted = post.highlight || false;
         const linkText = isLocal ? "Read Article" : "Read on Medium";
         const linkIcon = isLocal ? "fas fa-arrow-right" : "fas fa-external-link-alt";
         const linkTarget = isLocal ? "" : 'target="_blank" rel="noopener noreferrer"';
 
+        const highlightClass = isHighlighted ? 'highlighted' : '';
+        const highlightBadge = isHighlighted ? '<div class="post-highlight-badge"><i class="fas fa-star"></i><span>Featured Analysis</span></div>' : '';
+
         return `
-            <article class="post-card ${isFeatured ? 'featured' : ''}" data-post-id="${post.id}">
+            <article class="post-card ${isFeatured ? 'featured' : ''} ${highlightClass}" data-post-id="${post.id}">
+                ${isHighlighted ? '<div class="highlight-glow"></div>' : ''}
                 <div class="post-meta">
                     <div class="post-date">
                         <i class="fas fa-calendar-alt"></i>
@@ -62,6 +67,7 @@ class BlogManager {
                         <span>${post.readTime}</span>
                     </div>
                     ${isLocal ? '<div class="post-local-badge"><i class="fas fa-home"></i><span>Local Article</span></div>' : ''}
+                    ${highlightBadge}
                 </div>
                 
                 <h3 class="post-title">${post.title}</h3>

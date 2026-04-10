@@ -139,4 +139,3 @@ Route de l'Église
 - Entrevues et articles du Journal de Québec et FM93 (mai 2024)
 - Données d’achalandage (2025-2026)
   [https://villedequebec.eco-counter.com/site/300052537](https://villedequebec.eco-counter.com/site/300052537)
-
