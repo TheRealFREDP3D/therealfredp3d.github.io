@@ -45,6 +45,11 @@ class BlogManager {
             `<span class="post-tag" data-tag="${tag}">${tag}</span>`
         ).join('');
 
+        const isLocal = post.local || false;
+        const linkText = isLocal ? "Read Article" : "Read on Medium";
+        const linkIcon = isLocal ? "fas fa-arrow-right" : "fas fa-external-link-alt";
+        const linkTarget = isLocal ? "" : 'target="_blank" rel="noopener noreferrer"';
+
         return `
             <article class="post-card ${isFeatured ? 'featured' : ''}" data-post-id="${post.id}">
                 <div class="post-meta">
@@ -56,6 +61,7 @@ class BlogManager {
                         <i class="fas fa-clock"></i>
                         <span>${post.readTime}</span>
                     </div>
+                    ${isLocal ? '<div class="post-local-badge"><i class="fas fa-home"></i><span>Local Article</span></div>' : ''}
                 </div>
                 
                 <h3 class="post-title">${post.title}</h3>
@@ -66,9 +72,9 @@ class BlogManager {
                     ${tagElements}
                 </div>
                 
-                <a href="${post.url}" target="_blank" rel="noopener noreferrer" class="post-link">
-                    Read on Medium
-                    <i class="fas fa-external-link-alt"></i>
+                <a href="${post.url}" ${linkTarget} class="post-link">
+                    ${linkText}
+                    <i class="${linkIcon}"></i>
                 </a>
             </article>
         `;

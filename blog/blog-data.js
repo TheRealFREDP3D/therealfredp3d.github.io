@@ -89,6 +89,17 @@ const blogPosts = [
         tags: ["Cybersecurity", "CTF", "TryHackMe", "PicoCTF", "Advanced"],
         url: "https://medium.com/@TheRealFREDP3D/not-for-beginners-10092e552fa9",
         featured: false
+    },
+    {
+        id: 10,
+        title: "Déneigement des pistes cyclables : quand les chiffres demontre que le maire ment",
+        excerpt: "Analyse détaillée des coûts réels du déneigement des pistes cyclables hivernales à Québec, révélant l'écart entre le discours officiel et la réalité financière.",
+        date: "2025-04-10",
+        readTime: "12 min read",
+        tags: ["Politique", "Urbanisme", "Transports", "Budget", "Québec"],
+        url: "blog/articles/cout-du-deneigement/index.html",
+        featured: true,
+        local: true
     }
 ];
 
