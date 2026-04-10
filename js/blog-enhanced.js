@@ -56,7 +56,6 @@ class BlogManager {
 
         return `
             <article class="post-card ${isFeatured ? 'featured' : ''} ${highlightClass}" data-post-id="${post.id}">
-                ${isHighlighted ? '<div class="highlight-glow"></div>' : ''}
                 <div class="post-meta">
                     <div class="post-date">
                         <i class="fas fa-calendar-alt"></i>
