@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-M9F2C0H29W"></script>
@@ -12,8 +12,8 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Déneigement des pistes cyclables : quand les chiffres demontre que le maire ment - THEREALFRED.CA</title>
-    <meta name="description" content="Analyse détaillée des coûts réels du déneigement des pistes cyclables hivernales à Québec, révélant l'écart entre le discours officiel et la réalité financière.">
+    <title>Winter Bike Lane Snow Removal in Quebec City - THEREALFRED.CA</title>
+    <meta name="description" content="Analysis of winter bike lane snow removal costs and usage in Quebec City, examining the relationship between infrastructure investment and actual utilization.">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -314,11 +314,11 @@
 
     <!-- Language Switcher -->
     <div class="language-switcher">
-        <a href="cost-of-snow-removal.html" class="lang-button">
+        <a href="cost-of-snow-removal.html" class="lang-button active">
             <i class="fas fa-globe"></i>
             English
         </a>
-        <a href="index.html" class="lang-button active">
+        <a href="index.html" class="lang-button">
             <i class="fas fa-globe"></i>
             Français
         </a>
@@ -329,11 +329,11 @@
         <div class="container">
             <div class="article-container">
                 <div class="article-header">
-                    <h1 class="article-title">Déneigement des pistes cyclables : quand les chiffres demontre que le maire ment</h1>
+                    <h1 class="article-title">Winter Bike Lane Snow Removal in Quebec City</h1>
                     <div class="article-meta">
-                        <span><i class="fas fa-calendar-alt"></i> 10 avril 2025</span>
-                        <span><i class="fas fa-clock"></i> 12 min read</span>
-                        <span><i class="fas fa-tag"></i> Politique, Urbanisme, Transports</span>
+                        <span><i class="fas fa-calendar-alt"></i> April 10, 2025</span>
+                        <span><i class="fas fa-clock"></i> 10 min read</span>
+                        <span><i class="fas fa-tag"></i> Urban Planning, Transportation, Budget</span>
                     </div>
                 </div>
 
@@ -344,10 +344,10 @@
                 <div class="article-navigation">
                     <a href="../../../blog-enhanced.html" class="nav-button">
                         <i class="fas fa-arrow-left"></i>
-                        Retour au blog
+                        Back to Blog
                     </a>
                     <a href="../../../index.html#contact" class="nav-button">
-                        Contacter l'auteur
+                        Contact Author
                         <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
@@ -377,7 +377,7 @@
         // Load and parse markdown content
         async function loadArticle() {
             try {
-                const response = await fetch('./le-cout-reel-des-pistes.md');
+                const response = await fetch('./cost-of-snow-removal.md');
                 const markdown = await response.text();
                 
                 // Simple markdown parser
@@ -432,7 +432,7 @@
                 });
             } catch (error) {
                 console.error('Error loading article:', error);
-                document.getElementById('article-content').innerHTML = '<p>Erreur lors du chargement de l\'article.</p>';
+                document.getElementById('article-content').innerHTML = '<p>Error loading article.</p>';
             }
         }
         

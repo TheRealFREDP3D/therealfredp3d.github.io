@@ -47,9 +47,37 @@ class BlogManager {
 
         const isLocal = post.local || false;
         const isHighlighted = post.highlight || false;
-        const linkText = isLocal ? "Read Article" : "Read on Medium";
-        const linkIcon = isLocal ? "fas fa-arrow-right" : "fas fa-external-link-alt";
-        const linkTarget = isLocal ? "" : 'target="_blank" rel="noopener noreferrer"';
+        const isSnowRemovalArticle = post.id === 10; // Your snow removal article
+        
+        let linksHtml = '';
+        
+        if (isSnowRemovalArticle) {
+            // Special case for snow removal article - show both language options
+            linksHtml = `
+                <div class="post-links-multi">
+                    <a href="blog/articles/cout-du-deneigement/index.html" class="post-link lang-fr">
+                        <i class="fas fa-globe"></i>
+                        Lire en français
+                    </a>
+                    <a href="blog/articles/cout-du-deneigement/cost-of-snow-removal.html" class="post-link lang-en">
+                        <i class="fas fa-globe"></i>
+                        Read in English
+                    </a>
+                </div>
+            `;
+        } else {
+            // Regular article handling
+            const linkText = isLocal ? "Read Article" : "Read on Medium";
+            const linkIcon = isLocal ? "fas fa-arrow-right" : "fas fa-external-link-alt";
+            const linkTarget = isLocal ? "" : 'target="_blank" rel="noopener noreferrer"';
+            
+            linksHtml = `
+                <a href="${post.url}" ${linkTarget} class="post-link">
+                    ${linkText}
+                    <i class="${linkIcon}"></i>
+                </a>
+            `;
+        }
 
         const highlightClass = isHighlighted ? 'highlighted' : '';
         const highlightBadge = isHighlighted ? '<div class="post-highlight-badge"><i class="fas fa-star"></i><span>Featured Analysis</span></div>' : '';
@@ -77,10 +105,7 @@ class BlogManager {
                     ${tagElements}
                 </div>
                 
-                <a href="${post.url}" ${linkTarget} class="post-link">
-                    ${linkText}
-                    <i class="${linkIcon}"></i>
-                </a>
+                ${linksHtml}
             </article>
         `;
     }
