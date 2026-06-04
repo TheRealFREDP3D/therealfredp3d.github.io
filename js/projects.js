@@ -133,6 +133,16 @@ class ProjectManager {
         this.updateStats();
     }
 
+    escapeHTML(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
     renderProjects() {
         const container = document.getElementById('projects-grid');
         if (!container) return;
@@ -153,26 +163,30 @@ class ProjectManager {
     }
 
     createProjectCard(project) {
-        const tags = project.tags.map(tag => `<span class="tag-badge">${tag}</span>`).join('');
+        const tags = project.tags.map(tag => `<span class="tag-badge">${this.escapeHTML(tag)}</span>`).join('');
+        const title = this.escapeHTML(project.title);
+        const description = this.escapeHTML(project.description);
+        const image = this.escapeHTML(project.image);
+        const url = this.escapeHTML(project.url);
 
         return `
             <div class="project-card" data-id="${project.id}">
                 <div class="project-image">
-                    <img src="${project.image}" alt="${project.title}" onerror="this.src='assets/images/python-background.jpg'">
+                    <img src="${image}" alt="${title}" onerror="this.src='assets/images/python-background.jpg'">
                     <div class="project-stats-overlay">
                         <span><i class="fas fa-star"></i> ${project.stars}</span>
                         <span><i class="fas fa-code-branch"></i> ${project.forks}</span>
                     </div>
                 </div>
                 <div class="project-content">
-                    <h3 class="project-title">${project.title}</h3>
-                    <p class="project-description">${project.description}</p>
+                    <h3 class="project-title">${title}</h3>
+                    <p class="project-description">${description}</p>
                     <div class="project-tags">
                         ${tags}
                     </div>
                     <div class="project-footer">
                         <button class="btn btn-primary view-details" data-id="${project.id}">View Details</button>
-                        <a href="${project.url}" target="_blank" class="github-link"><i class="fab fa-github"></i></a>
+                        <a href="${url}" target="_blank" class="github-link"><i class="fab fa-github"></i></a>
                     </div>
                 </div>
             </div>
@@ -244,10 +258,14 @@ class ProjectManager {
         const modal = document.getElementById('project-modal');
         const content = document.getElementById('modal-project-content');
 
+        const title = this.escapeHTML(project.title);
+        const image = this.escapeHTML(project.image);
+        const url = this.escapeHTML(project.url);
+
         content.innerHTML = `
             <div class="modal-header">
-                <img src="${project.image}" alt="${project.title}" class="modal-hero-image" onerror="this.src='assets/images/python-background.jpg'">
-                <h2>${project.title}</h2>
+                <img src="${image}" alt="${title}" class="modal-hero-image" onerror="this.src='assets/images/python-background.jpg'">
+                <h2>${title}</h2>
                 <div class="modal-meta">
                     <span><i class="fas fa-star"></i> ${project.stars} Stars</span>
                     <span><i class="fas fa-code-branch"></i> ${project.forks} Forks</span>
@@ -260,7 +278,7 @@ class ProjectManager {
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="${project.url}" target="_blank" class="btn btn-primary">
+                <a href="${url}" target="_blank" class="btn btn-primary">
                     <i class="fab fa-github"></i> View Repository
                 </a>
             </div>
@@ -315,7 +333,7 @@ class ProjectManager {
     }
 
     formatInline(text) {
-        return text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        return this.escapeHTML(text).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     }
 
     animateCards() {
