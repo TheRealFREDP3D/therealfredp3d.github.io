@@ -9,12 +9,13 @@ const projectsData = [
         "forks": 0,
         "url": "https://github.com/TheRealFREDP3D/quickhubpulse",
         "image": "https://raw.githubusercontent.com/TheRealFREDP3D/quickhubpulse/master/image/Overview.png",
-        "pushed_at": "2026-06-04T09:56:40Z",
+        "pushed_at": "2025-06-04T09:56:40Z",
         "tags": [
             "dashboard",
             "github",
             "repository",
-            "stats"
+            "stats",
+            "React"
         ],
         "narrative": "### The Vision\nQuickHubPulse was born from the need for a faster, more intuitive way to monitor GitHub repository health. While GitHub provides extensive data, navigating multiple tabs to see traffic, stars, and issues can be cumbersome. I wanted a \"pulse\" view that combined visual trends with deep insights.\n\n### The Evolution\nThe development journey focused on making the application professional and production-ready. Early commits show the core implementation using React 19 and Tailwind CSS 4. As the project matured, I shifted focus to robust state management, implementing persistent authentication via sessionStorage and refining the OAuth flow to be fully standards-compliant. The move to Node.js 20 and optimized Netlify builds ensured the dashboard stays as fast as the data it displays.\n\n### Key Features\n- **Real-time Visualization**: Using Recharts to transform raw GitHub API data into actionable traffic trends.\n- **Modern Stack**: Built with the latest React 19 features for maximum performance.\n- **Architecture**: A clean, modular design that separates the data fetching layer from the UI, as documented in the core system architecture.\n"
     },
@@ -27,8 +28,12 @@ const projectsData = [
         "forks": 0,
         "url": "https://github.com/TheRealFREDP3D/Buzz-Bites",
         "image": "assets/images/python-background.jpg",
-        "pushed_at": "2026-06-01T18:14:06Z",
-        "tags": ["Game", "Python", "RTS"],
+        "pushed_at": "2025-06-01T18:14:06Z",
+        "tags": [
+            "Game",
+            "Python",
+            "RTS"
+        ],
         "narrative": "### The Vision\nBackyard Battle (Buzz vs Bite) is a passion project exploring real-time strategy (RTS) mechanics in a web environment. The goal was to create a complex simulation of colony warfare between bees and ants that runs smoothly in the browser.\n\n### The Evolution\nThe git history reveals a transition from simple unit movement to a comprehensive game loop. A major milestone was the implementation of multi-level progression and difficulty scaling, allowing the game to challenge players as they progress. I spent significant time refactoring the game state management to ensure that hundreds of active units don't compromise performance. The \"ImgBot\" integrations also highlight a commitment to optimizing assets for web delivery.\n\n### Key Features\n- **Spatial Grid Optimization**: Efficient collision and target detection for high unit counts.\n- **Adaptive AI**: An ant opponent that scales its aggression based on the player's progress.\n- **Resource Economy**: A dual-resource system (Nectar/Pollen) that forces strategic decision-making.\n"
     },
     {
@@ -40,12 +45,13 @@ const projectsData = [
         "forks": 0,
         "url": "https://github.com/TheRealFREDP3D/fish-sim-reboot",
         "image": "assets/images/python-background.jpg",
-        "pushed_at": "2026-05-28T21:03:09Z",
+        "pushed_at": "2025-05-28T21:03:09Z",
         "tags": [
             "brain",
             "fish",
             "neural-network",
-            "simulation"
+            "simulation",
+            "AI"
         ],
         "narrative": "### The Vision\nThis project is a deep dive into neuroevolution. I wanted to build a world where \"intelligence\" isn't programmed, but emerges from the need to survive. Every fish in the sim is controlled by its own neural network, evolving over generations to find food and avoid predators.\n\n### The Evolution\nRecent development has been heavily focused on the \"Brain Visualizer.\" I moved away from static charts to an \"organic brain visualizer\" with bioluminescent themes and behavioral insights. This allows the user to see exactly which neurons are firing when a fish decides to turn or eat. Technical refactors also corrected thrust normalization in the NeuralFish model, leading to more realistic movement patterns.\n\n### Key Features\n- **Neural Evolution**: A custom-built neuroevolution engine where fish pass their \"brain\" weights to offspring.\n- **Living Ecosystem**: A dynamic world with day/night cycles, seasonal changes, and plant growth that responds to soil nutrients.\n- **Bioluminescent UI**: A high-performance Pygame interface that visualizes the invisible world of neural computation.\n"
     },
@@ -58,7 +64,7 @@ const projectsData = [
         "forks": 0,
         "url": "https://github.com/TheRealFREDP3D/HTB-MCP-Client",
         "image": "https://raw.githubusercontent.com/TheRealFREDP3D/HTB-MCP-Client/main/HTB-MCP-Client-Banner.png",
-        "pushed_at": "2026-05-23T14:06:42Z",
+        "pushed_at": "2025-05-23T14:06:42Z",
         "tags": [
             "client",
             "ctf",
@@ -69,7 +75,8 @@ const projectsData = [
             "htb-mcp",
             "mcp",
             "mcp-client",
-            "python"
+            "python",
+            "Cybersecurity"
         ],
         "narrative": "### The Vision\nHackTheBox (HTB) is a premier platform for cybersecurity training. I created this TUI (Terminal User Interface) client to streamline the experience of managing challenges and interacting with the HTB Model Context Protocol (MCP) server directly from the command line.\n\n### The Evolution\nThe project started as a tool for quick challenge lookups. It evolved into a robust management suite. Commits show a shift towards modular architecture, specifically in how schema templates are generated for the MCP. I also focused heavily on error handling and stability, replacing silent exceptions with structured logging to make the tool reliable for active CTF competitions.\n\n### Key Features\n- **Textual TUI**: A beautiful and responsive terminal interface built with Python.\n- **Container Management**: Integrated controls to start/stop challenge instances via the HTB API.\n- **Persistent State**: Automated session management so you can pick up exactly where you left off.\n"
     },
@@ -82,13 +89,14 @@ const projectsData = [
         "forks": 0,
         "url": "https://github.com/TheRealFREDP3D/PullRequest-Mermaid-Extractor",
         "image": "assets/images/python-background.jpg",
-        "pushed_at": "2026-05-11T01:12:14Z",
+        "pushed_at": "2025-05-11T01:12:14Z",
         "tags": [
             "developer-tools",
             "diagram",
             "github",
             "mermaid",
-            "pull-request"
+            "pull-request",
+            "React"
         ],
         "narrative": "### The Vision\nArchitecture documentation often lives in GitHub Pull Requests but gets buried once the PR is merged. This tool was built to surface those Mermaid diagrams, making it easy to discover and visualize the structural changes proposed in any repository.\n\n### The Evolution\nStarting as a prototype, the project quickly moved toward v0.1.1. The development focus was on the reliability of the \"MermaidRenderer\" component. I iterated on how the extractor identifies diagrams within PR comments and descriptions, ensuring that even complex nested diagrams are captured correctly. Recent maintenance focused on keeping the dependencies like picomatch and rollup updated for security and performance.\n\n### Key Features\n- **Automated Extraction**: Scans PR history to find and render Mermaid diagrams.\n- **Multiple Export Formats**: Export discovered diagrams to Markdown or Draw.io XML.\n- **Developer-Centric**: Built with React 19 and TypeScript for a type-safe, modern experience.\n"
     },
@@ -101,7 +109,7 @@ const projectsData = [
         "forks": 7,
         "url": "https://github.com/TheRealFREDP3D/Ollama-Colab",
         "image": "https://raw.githubusercontent.com/TheRealFREDP3D/Ollama-Colab/main/assets/header.jpg",
-        "pushed_at": "2026-05-09T19:46:39Z",
+        "pushed_at": "2025-05-09T19:46:39Z",
         "tags": [
             "ai",
             "cloudflare",
@@ -133,64 +141,124 @@ class ProjectManager {
         this.updateStats();
     }
 
-    escapeHTML(str) {
-        if (!str) return '';
-        return String(str)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#039;');
-    }
-
     renderProjects() {
         const container = document.getElementById('projects-grid');
         if (!container) return;
 
+        // Clear container
+        while (container.firstChild) {
+            container.removeChild(container.firstChild);
+        }
+
         if (this.filteredProjects.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-search"></i>
-                    <h3>No projects found</h3>
-                    <p>Try adjusting your search or filters.</p>
-                </div>
-            `;
+            const emptyState = document.createElement('div');
+            emptyState.className = 'empty-state';
+
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-search';
+
+            const h3 = document.createElement('h3');
+            h3.textContent = 'No projects found';
+
+            const p = document.createElement('p');
+            p.textContent = 'Try adjusting your search or filters.';
+
+            emptyState.appendChild(icon);
+            emptyState.appendChild(h3);
+            emptyState.appendChild(p);
+            container.appendChild(emptyState);
             return;
         }
 
-        container.innerHTML = this.filteredProjects.map(project => this.createProjectCard(project)).join('');
+        const fragment = document.createDocumentFragment();
+        this.filteredProjects.forEach(project => {
+            fragment.appendChild(this.createProjectCard(project));
+        });
+        container.appendChild(fragment);
         this.animateCards();
     }
 
     createProjectCard(project) {
-        const tags = project.tags.map(tag => `<span class="tag-badge">${this.escapeHTML(tag)}</span>`).join('');
-        const title = this.escapeHTML(project.title);
-        const description = this.escapeHTML(project.description);
-        const image = this.escapeHTML(project.image);
-        const url = this.escapeHTML(project.url);
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        card.dataset.id = project.id;
 
-        return `
-            <div class="project-card" data-id="${project.id}">
-                <div class="project-image">
-                    <img src="${image}" alt="${title}" onerror="this.src='assets/images/python-background.jpg'">
-                    <div class="project-stats-overlay">
-                        <span><i class="fas fa-star"></i> ${project.stars}</span>
-                        <span><i class="fas fa-code-branch"></i> ${project.forks}</span>
-                    </div>
-                </div>
-                <div class="project-content">
-                    <h3 class="project-title">${title}</h3>
-                    <p class="project-description">${description}</p>
-                    <div class="project-tags">
-                        ${tags}
-                    </div>
-                    <div class="project-footer">
-                        <button class="btn btn-primary view-details" data-id="${project.id}">View Details</button>
-                        <a href="${url}" target="_blank" class="github-link"><i class="fab fa-github"></i></a>
-                    </div>
-                </div>
-            </div>
-        `;
+        const imageContainer = document.createElement('div');
+        imageContainer.className = 'project-image';
+
+        const img = document.createElement('img');
+        img.src = project.image;
+        img.alt = project.title;
+        img.onerror = () => { img.src = 'assets/images/python-background.jpg'; };
+
+        const overlay = document.createElement('div');
+        overlay.className = 'project-stats-overlay';
+
+        const starSpan = document.createElement('span');
+        const starIcon = document.createElement('i');
+        starIcon.className = 'fas fa-star';
+        starSpan.appendChild(starIcon);
+        starSpan.appendChild(document.createTextNode(` ${project.stars}`));
+
+        const forkSpan = document.createElement('span');
+        const forkIcon = document.createElement('i');
+        forkIcon.className = 'fas fa-code-branch';
+        forkSpan.appendChild(forkIcon);
+        forkSpan.appendChild(document.createTextNode(` ${project.forks}`));
+
+        overlay.appendChild(starSpan);
+        overlay.appendChild(forkSpan);
+        imageContainer.appendChild(img);
+        imageContainer.appendChild(overlay);
+
+        const content = document.createElement('div');
+        content.className = 'project-content';
+
+        const h3 = document.createElement('h3');
+        h3.className = 'project-title';
+        h3.textContent = project.title;
+
+        const p = document.createElement('p');
+        p.className = 'project-description';
+        p.textContent = project.description;
+
+        const tagsContainer = document.createElement('div');
+        tagsContainer.className = 'project-tags';
+        project.tags.forEach(tag => {
+            const span = document.createElement('span');
+            span.className = 'tag-badge';
+            span.textContent = tag;
+            tagsContainer.appendChild(span);
+        });
+
+        const footer = document.createElement('div');
+        footer.className = 'project-footer';
+
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-primary view-details';
+        btn.dataset.id = project.id;
+        btn.textContent = 'View Details';
+
+        const githubLink = document.createElement('a');
+        githubLink.href = project.url;
+        githubLink.target = '_blank';
+        githubLink.className = 'github-link';
+        const githubIcon = document.createElement('i');
+        githubIcon.className = 'fab fa-github';
+        githubLink.appendChild(githubIcon);
+
+        footer.appendChild(btn);
+        footer.appendChild(githubLink);
+
+        content.appendChild(h3);
+        content.appendChild(p);
+        content.appendChild(tagsContainer);
+        content.appendChild(footer);
+
+        card.appendChild(imageContainer);
+        card.appendChild(content);
+
+        return card;
     }
 
     setupEventListeners() {
@@ -258,31 +326,79 @@ class ProjectManager {
         const modal = document.getElementById('project-modal');
         const content = document.getElementById('modal-project-content');
 
-        const title = this.escapeHTML(project.title);
-        const image = this.escapeHTML(project.image);
-        const url = this.escapeHTML(project.url);
+        // Clear content
+        while (content.firstChild) {
+            content.removeChild(content.firstChild);
+        }
 
-        content.innerHTML = `
-            <div class="modal-header">
-                <img src="${image}" alt="${title}" class="modal-hero-image" onerror="this.src='assets/images/python-background.jpg'">
-                <h2>${title}</h2>
-                <div class="modal-meta">
-                    <span><i class="fas fa-star"></i> ${project.stars} Stars</span>
-                    <span><i class="fas fa-code-branch"></i> ${project.forks} Forks</span>
-                    <span><i class="fas fa-clock"></i> Last updated: ${new Date(project.pushed_at).toLocaleDateString()}</span>
-                </div>
-            </div>
-            <div class="modal-body">
-                <div class="narrative">
-                    ${this.formatMarkdown(project.narrative)}
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a href="${url}" target="_blank" class="btn btn-primary">
-                    <i class="fab fa-github"></i> View Repository
-                </a>
-            </div>
-        `;
+        const header = document.createElement('div');
+        header.className = 'modal-header';
+
+        const img = document.createElement('img');
+        img.src = project.image;
+        img.alt = project.title;
+        img.className = 'modal-hero-image';
+        img.onerror = () => { img.src = 'assets/images/python-background.jpg'; };
+
+        const h2 = document.createElement('h2');
+        h2.textContent = project.title;
+
+        const meta = document.createElement('div');
+        meta.className = 'modal-meta';
+
+        const stars = document.createElement('span');
+        const starIcon = document.createElement('i');
+        starIcon.className = 'fas fa-star';
+        stars.appendChild(starIcon);
+        stars.appendChild(document.createTextNode(` ${project.stars} Stars`));
+
+        const forks = document.createElement('span');
+        const forkIcon = document.createElement('i');
+        forkIcon.className = 'fas fa-code-branch';
+        forks.appendChild(forkIcon);
+        forks.appendChild(document.createTextNode(` ${project.forks} Forks`));
+
+        const updated = document.createElement('span');
+        const clockIcon = document.createElement('i');
+        clockIcon.className = 'fas fa-clock';
+        updated.appendChild(clockIcon);
+        const dateStr = new Date(project.pushed_at).toLocaleDateString();
+        updated.appendChild(document.createTextNode(` Last updated: ${dateStr}`));
+
+        meta.appendChild(stars);
+        meta.appendChild(forks);
+        meta.appendChild(updated);
+
+        header.appendChild(img);
+        header.appendChild(h2);
+        header.appendChild(meta);
+
+        const body = document.createElement('div');
+        body.className = 'modal-body';
+
+        const narrativeDiv = document.createElement('div');
+        narrativeDiv.className = 'narrative';
+        narrativeDiv.appendChild(this.formatMarkdown(project.narrative));
+
+        body.appendChild(narrativeDiv);
+
+        const footer = document.createElement('div');
+        footer.className = 'modal-footer';
+
+        const link = document.createElement('a');
+        link.href = project.url;
+        link.target = '_blank';
+        link.className = 'btn btn-primary';
+        const githubIcon = document.createElement('i');
+        githubIcon.className = 'fab fa-github';
+        link.appendChild(githubIcon);
+        link.appendChild(document.createTextNode(' View Repository'));
+
+        footer.appendChild(link);
+
+        content.appendChild(header);
+        content.appendChild(body);
+        content.appendChild(footer);
 
         modal.style.display = 'block';
         document.body.style.overflow = 'hidden';
@@ -298,42 +414,57 @@ class ProjectManager {
 
     formatMarkdown(text) {
         const lines = text.split('\n');
-        let html = [];
-        let inList = false;
+        const fragment = document.createDocumentFragment();
+        let currentList = null;
 
         lines.forEach(line => {
             const trimmed = line.trim();
 
             if (trimmed.startsWith('- ')) {
-                if (!inList) {
-                    html.push('<ul>');
-                    inList = true;
+                if (!currentList) {
+                    currentList = document.createElement('ul');
+                    fragment.appendChild(currentList);
                 }
-                html.push(`<li>${this.formatInline(trimmed.substring(2))}</li>`);
+                const li = document.createElement('li');
+                this.appendInline(li, trimmed.substring(2));
+                currentList.appendChild(li);
             } else {
-                if (inList) {
-                    html.push('</ul>');
-                    inList = false;
-                }
+                currentList = null;
 
                 if (trimmed.startsWith('### ')) {
-                    html.push(`<h3>${this.formatInline(trimmed.substring(4))}</h3>`);
+                    const h3 = document.createElement('h3');
+                    this.appendInline(h3, trimmed.substring(4));
+                    fragment.appendChild(h3);
                 } else if (trimmed.startsWith('## ')) {
-                    html.push(`<h2>${this.formatInline(trimmed.substring(3))}</h2>`);
+                    const h2 = document.createElement('h2');
+                    this.appendInline(h2, trimmed.substring(3));
+                    fragment.appendChild(h2);
                 } else if (trimmed.startsWith('# ')) {
-                    html.push(`<h1>${this.formatInline(trimmed.substring(2))}</h1>`);
+                    const h1 = document.createElement('h1');
+                    this.appendInline(h1, trimmed.substring(2));
+                    fragment.appendChild(h1);
                 } else if (trimmed !== '') {
-                    html.push(`<p>${this.formatInline(trimmed)}</p>`);
+                    const p = document.createElement('p');
+                    this.appendInline(p, trimmed);
+                    fragment.appendChild(p);
                 }
             }
         });
 
-        if (inList) html.push('</ul>');
-        return html.join('\n');
+        return fragment;
     }
 
-    formatInline(text) {
-        return this.escapeHTML(text).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    appendInline(el, text) {
+        const parts = text.split(/(\*\*.+?\*\*)/g);
+        parts.forEach(part => {
+            if (part.startsWith('**') && part.endsWith('**')) {
+                const strong = document.createElement('strong');
+                strong.textContent = part.substring(2, part.length - 2);
+                el.appendChild(strong);
+            } else if (part) {
+                el.appendChild(document.createTextNode(part));
+            }
+        });
     }
 
     animateCards() {
