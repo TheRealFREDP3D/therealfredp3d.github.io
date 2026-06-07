@@ -1,3 +1,79 @@
+// Allowed URL schemes for security validation
+const ALLOWED_URL_SCHEMES = ['https:', 'http:'];
+
+/**
+ * Safely sets an href or src attribute after validating the URL.
+ * Blocks javascript: and other dangerous schemes.
+ * @param {HTMLElement} el - Element to set attribute on
+ * @param {string} attr - Attribute name ('href' or 'src')
+ * @param {string} value - URL value to validate and set
+ * @param {string[]} [allowedSchemes] - Allowed URL schemes
+ */
+function setSafeUrl(el, attr, value, allowedSchemes = ALLOWED_URL_SCHEMES) {
+    if (!value || typeof value !== 'string') {
+        console.warn(`setSafeUrl: empty or non-string value for ${attr}`);
+        return;
+    }
+    try {
+        const parsed = new URL(value, window.location.href);
+        if (!allowedSchemes.includes(parsed.protocol)) {
+            console.warn(`setSafeUrl: blocked disallowed scheme "${parsed.protocol}" for ${attr}:`, value);
+            return;
+        }
+        el.setAttribute(attr, parsed.href);
+    } catch {
+        console.warn(`setSafeUrl: invalid URL blocked for ${attr}:`, value);
+    }
+}
+
+/**
+ * Creates a DOM element with optional class, text content, and safe attributes.
+ * Validates href/src attributes to prevent XSS via javascript: URLs.
+ * When target="_blank" is set, rel="noopener noreferrer" is always applied
+ * to prevent reverse-tabnabbing attacks via window.opener.
+ * @param {string} tag
+ * @param {string} [text]
+ * @param {string} [className]
+ * @param {Object} [attributes]
+ * @returns {HTMLElement}
+ */
+function createSafeElement(tag, text = '', className = '', attributes = {}) {
+    const el = document.createElement(tag);
+    if (className) el.className = className;
+    if (text) el.textContent = text;
+
+    // Track whether target="_blank" is being set so we can enforce rel
+    let hasBlankTarget = false;
+
+    for (const [key, value] of Object.entries(attributes)) {
+        if (key === 'href' || key === 'src') {
+            setSafeUrl(el, key, value);
+        } else if (key === 'target') {
+            if (value === '_blank') {
+                el.setAttribute('target', '_blank');
+                hasBlankTarget = true;
+            }
+            // Discard any other target value (e.g. _parent, _top) for safety
+        } else {
+            // Only allow safe, known attributes
+            const SAFE_ATTRS = new Set([
+                'alt', 'class', 'id', 'type', 'placeholder',
+                'data-id', 'data-tag', 'title', 'rel'
+            ]);
+            if (SAFE_ATTRS.has(key)) {
+                el.setAttribute(key, value);
+            }
+        }
+    }
+
+    // Always enforce rel="noopener noreferrer" on blank-target links,
+    // regardless of whether the caller supplied a rel attribute.
+    if (hasBlankTarget) {
+        el.setAttribute('rel', 'noopener noreferrer');
+    }
+
+    return el;
+}
 
 const projectsData = [
     {
@@ -145,27 +221,16 @@ class ProjectManager {
         const container = document.getElementById('projects-grid');
         if (!container) return;
 
-        // Clear container
+        // Clear container safely
         while (container.firstChild) {
             container.removeChild(container.firstChild);
         }
 
         if (this.filteredProjects.length === 0) {
-            const emptyState = document.createElement('div');
-            emptyState.className = 'empty-state';
-
-            const icon = document.createElement('i');
-            icon.className = 'fas fa-search';
-
-            const h3 = document.createElement('h3');
-            h3.textContent = 'No projects found';
-
-            const p = document.createElement('p');
-            p.textContent = 'Try adjusting your search or filters.';
-
-            emptyState.appendChild(icon);
-            emptyState.appendChild(h3);
-            emptyState.appendChild(p);
+            const emptyState = createSafeElement('div', '', 'empty-state');
+            emptyState.appendChild(createSafeElement('i', '', 'fas fa-search'));
+            emptyState.appendChild(createSafeElement('h3', 'No projects found'));
+            emptyState.appendChild(createSafeElement('p', 'Try adjusting your search or filters.'));
             container.appendChild(emptyState);
             return;
         }
@@ -179,85 +244,62 @@ class ProjectManager {
     }
 
     createProjectCard(project) {
-        const card = document.createElement('div');
-        card.className = 'project-card';
+        const card = createSafeElement('div', '', 'project-card');
         card.dataset.id = project.id;
 
-        const imageContainer = document.createElement('div');
-        imageContainer.className = 'project-image';
+        // Image container
+        const imageContainer = createSafeElement('div', '', 'project-image');
 
-        const img = document.createElement('img');
-        img.src = project.image;
-        img.alt = project.title;
-        img.onerror = () => { img.src = 'assets/images/python-background.jpg'; };
+        const img = createSafeElement('img', '', '', { alt: project.title || '' });
+        // Use setSafeUrl for image src; fall back to a safe local asset on error
+        setSafeUrl(img, 'src', project.image || '');
+        img.onerror = () => { img.setAttribute('src', 'assets/images/python-background.jpg'); };
 
-        const overlay = document.createElement('div');
-        overlay.className = 'project-stats-overlay';
+        const overlay = createSafeElement('div', '', 'project-stats-overlay');
 
-        const starSpan = document.createElement('span');
-        const starIcon = document.createElement('i');
-        starIcon.className = 'fas fa-star';
-        starSpan.appendChild(starIcon);
-        starSpan.appendChild(document.createTextNode(` ${project.stars}`));
+        const starSpan = createSafeElement('span');
+        starSpan.appendChild(createSafeElement('i', '', 'fas fa-star'));
+        starSpan.appendChild(document.createTextNode(` ${Number.isFinite(project.stars) ? project.stars : 0}`));
 
-        const forkSpan = document.createElement('span');
-        const forkIcon = document.createElement('i');
-        forkIcon.className = 'fas fa-code-branch';
-        forkSpan.appendChild(forkIcon);
-        forkSpan.appendChild(document.createTextNode(` ${project.forks}`));
+        const forkSpan = createSafeElement('span');
+        forkSpan.appendChild(createSafeElement('i', '', 'fas fa-code-branch'));
+        forkSpan.appendChild(document.createTextNode(` ${Number.isFinite(project.forks) ? project.forks : 0}`));
 
         overlay.appendChild(starSpan);
         overlay.appendChild(forkSpan);
         imageContainer.appendChild(img);
         imageContainer.appendChild(overlay);
 
-        const content = document.createElement('div');
-        content.className = 'project-content';
+        // Content
+        const content = createSafeElement('div', '', 'project-content');
+        content.appendChild(createSafeElement('h3', project.title || 'Untitled', 'project-title'));
+        content.appendChild(createSafeElement('p', project.description || '', 'project-description'));
 
-        const h3 = document.createElement('h3');
-        h3.className = 'project-title';
-        h3.textContent = project.title;
-
-        const p = document.createElement('p');
-        p.className = 'project-description';
-        p.textContent = project.description;
-
-        const tagsContainer = document.createElement('div');
-        tagsContainer.className = 'project-tags';
-        project.tags.forEach(tag => {
-            const span = document.createElement('span');
-            span.className = 'tag-badge';
-            span.textContent = tag;
-            tagsContainer.appendChild(span);
+        const tagsContainer = createSafeElement('div', '', 'project-tags');
+        (project.tags || []).forEach(tag => {
+            tagsContainer.appendChild(createSafeElement('span', String(tag), 'tag-badge'));
         });
+        content.appendChild(tagsContainer);
 
-        const footer = document.createElement('div');
-        footer.className = 'project-footer';
+        // Footer
+        const footer = createSafeElement('div', '', 'project-footer');
 
-        const btn = document.createElement('button');
-        btn.className = 'btn btn-primary view-details';
+        const btn = createSafeElement('button', 'View Details', 'btn btn-primary view-details');
         btn.dataset.id = project.id;
-        btn.textContent = 'View Details';
 
-        const githubLink = document.createElement('a');
-        githubLink.href = project.url;
-        githubLink.target = '_blank';
-        githubLink.className = 'github-link';
-        const githubIcon = document.createElement('i');
-        githubIcon.className = 'fab fa-github';
-        githubLink.appendChild(githubIcon);
+        // target="_blank" triggers automatic rel="noopener noreferrer" in createSafeElement
+        const githubLink = createSafeElement('a', '', 'github-link', {
+            href: project.url || '',
+            target: '_blank'
+        });
+        githubLink.appendChild(createSafeElement('i', '', 'fab fa-github'));
 
         footer.appendChild(btn);
         footer.appendChild(githubLink);
-
-        content.appendChild(h3);
-        content.appendChild(p);
-        content.appendChild(tagsContainer);
         content.appendChild(footer);
 
         card.appendChild(imageContainer);
         card.appendChild(content);
-
         return card;
     }
 
@@ -290,13 +332,12 @@ class ProjectManager {
         const modal = document.getElementById('project-modal');
         if (modal) {
             window.addEventListener('click', (event) => {
-                if (event.target == modal) {
+                if (event.target === modal) {
                     modal.style.display = 'none';
                     document.body.style.overflow = 'auto';
                 }
             });
 
-            // ESC key to close
             window.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && modal.style.display === 'block') {
                     modal.style.display = 'none';
@@ -309,11 +350,14 @@ class ProjectManager {
     applyFilters() {
         this.filteredProjects = this.projects.filter(p => {
             const searchLower = this.searchQuery.toLowerCase();
-            const matchesSearch = p.title.toLowerCase().includes(searchLower) ||
-                                 p.description.toLowerCase().includes(searchLower);
+            const matchesSearch =
+                (p.title || '').toLowerCase().includes(searchLower) ||
+                (p.description || '').toLowerCase().includes(searchLower);
 
-            const matchesTag = this.currentFilter === 'all' ||
-                             p.tags.some(tag => tag.toLowerCase() === this.currentFilter.toLowerCase());
+            const matchesTag =
+                this.currentFilter === 'all' ||
+                (p.tags || []).some(tag => tag.toLowerCase() === this.currentFilter.toLowerCase());
+
             return matchesSearch && matchesTag;
         });
         this.renderProjects();
@@ -325,75 +369,61 @@ class ProjectManager {
 
         const modal = document.getElementById('project-modal');
         const content = document.getElementById('modal-project-content');
+        if (!modal || !content) return;
 
-        // Clear content
+        // Clear content safely
         while (content.firstChild) {
             content.removeChild(content.firstChild);
         }
 
-        const header = document.createElement('div');
-        header.className = 'modal-header';
+        // Header
+        const header = createSafeElement('div', '', 'modal-header');
 
-        const img = document.createElement('img');
-        img.src = project.image;
-        img.alt = project.title;
-        img.className = 'modal-hero-image';
-        img.onerror = () => { img.src = 'assets/images/python-background.jpg'; };
+        const img = createSafeElement('img', '', 'modal-hero-image', { alt: project.title || '' });
+        setSafeUrl(img, 'src', project.image || '');
+        img.onerror = () => { img.setAttribute('src', 'assets/images/python-background.jpg'); };
+        header.appendChild(img);
 
-        const h2 = document.createElement('h2');
-        h2.textContent = project.title;
+        header.appendChild(createSafeElement('h2', project.title || 'Untitled'));
 
-        const meta = document.createElement('div');
-        meta.className = 'modal-meta';
+        const meta = createSafeElement('div', '', 'modal-meta');
 
-        const stars = document.createElement('span');
-        const starIcon = document.createElement('i');
-        starIcon.className = 'fas fa-star';
-        stars.appendChild(starIcon);
-        stars.appendChild(document.createTextNode(` ${project.stars} Stars`));
+        const stars = createSafeElement('span');
+        stars.appendChild(createSafeElement('i', '', 'fas fa-star'));
+        stars.appendChild(document.createTextNode(` ${Number.isFinite(project.stars) ? project.stars : 0} Stars`));
 
-        const forks = document.createElement('span');
-        const forkIcon = document.createElement('i');
-        forkIcon.className = 'fas fa-code-branch';
-        forks.appendChild(forkIcon);
-        forks.appendChild(document.createTextNode(` ${project.forks} Forks`));
+        const forks = createSafeElement('span');
+        forks.appendChild(createSafeElement('i', '', 'fas fa-code-branch'));
+        forks.appendChild(document.createTextNode(` ${Number.isFinite(project.forks) ? project.forks : 0} Forks`));
 
-        const updated = document.createElement('span');
-        const clockIcon = document.createElement('i');
-        clockIcon.className = 'fas fa-clock';
-        updated.appendChild(clockIcon);
-        const dateStr = new Date(project.pushed_at).toLocaleDateString();
+        const updated = createSafeElement('span');
+        updated.appendChild(createSafeElement('i', '', 'fas fa-clock'));
+        let dateStr = 'Unknown';
+        try {
+            dateStr = new Date(project.pushed_at).toLocaleDateString();
+        } catch { /* keep default */ }
         updated.appendChild(document.createTextNode(` Last updated: ${dateStr}`));
 
         meta.appendChild(stars);
         meta.appendChild(forks);
         meta.appendChild(updated);
-
-        header.appendChild(img);
-        header.appendChild(h2);
         header.appendChild(meta);
 
-        const body = document.createElement('div');
-        body.className = 'modal-body';
-
-        const narrativeDiv = document.createElement('div');
-        narrativeDiv.className = 'narrative';
-        narrativeDiv.appendChild(this.formatMarkdown(project.narrative));
-
+        // Body — narrative rendered via safe DOM builder
+        const body = createSafeElement('div', '', 'modal-body');
+        const narrativeDiv = createSafeElement('div', '', 'narrative');
+        // Guard against null/undefined narrative
+        narrativeDiv.appendChild(this.formatMarkdown(project.narrative || ''));
         body.appendChild(narrativeDiv);
 
-        const footer = document.createElement('div');
-        footer.className = 'modal-footer';
-
-        const link = document.createElement('a');
-        link.href = project.url;
-        link.target = '_blank';
-        link.className = 'btn btn-primary';
-        const githubIcon = document.createElement('i');
-        githubIcon.className = 'fab fa-github';
-        link.appendChild(githubIcon);
+        // Footer — target="_blank" triggers automatic rel="noopener noreferrer"
+        const footer = createSafeElement('div', '', 'modal-footer');
+        const link = createSafeElement('a', '', 'btn btn-primary', {
+            href: project.url || '',
+            target: '_blank'
+        });
+        link.appendChild(createSafeElement('i', '', 'fab fa-github'));
         link.appendChild(document.createTextNode(' View Repository'));
-
         footer.appendChild(link);
 
         content.appendChild(header);
@@ -405,15 +435,24 @@ class ProjectManager {
 
         const closeBtn = modal.querySelector('.close-modal');
         if (closeBtn) {
-            closeBtn.onclick = () => {
+            // Clone to remove any stale listeners before re-attaching
+            const newClose = closeBtn.cloneNode(true);
+            closeBtn.parentNode.replaceChild(newClose, closeBtn);
+            newClose.onclick = () => {
                 modal.style.display = 'none';
                 document.body.style.overflow = 'auto';
             };
         }
     }
 
+    /**
+     * Converts a limited markdown subset (###/##/#, **bold**, bullet lists, plain paragraphs)
+     * into safe DOM nodes. No innerHTML is used at any point.
+     * @param {string} text
+     * @returns {DocumentFragment}
+     */
     formatMarkdown(text) {
-        const lines = text.split('\n');
+        const lines = (text || '').split('\n');
         const fragment = document.createDocumentFragment();
         let currentList = null;
 
@@ -429,6 +468,7 @@ class ProjectManager {
                 this.appendInline(li, trimmed.substring(2));
                 currentList.appendChild(li);
             } else {
+                // Any non-list line closes the current list
                 currentList = null;
 
                 if (trimmed.startsWith('### ')) {
@@ -454,8 +494,14 @@ class ProjectManager {
         return fragment;
     }
 
+    /**
+     * Appends inline text with **bold** support to a parent element.
+     * Uses textContent exclusively — no innerHTML.
+     * @param {HTMLElement} el
+     * @param {string} text
+     */
     appendInline(el, text) {
-        const parts = text.split(/(\*\*.+?\*\*)/g);
+        const parts = (text || '').split(/(\*\*.+?\*\*)/g);
         parts.forEach(part => {
             if (part.startsWith('**') && part.endsWith('**')) {
                 const strong = document.createElement('strong');
