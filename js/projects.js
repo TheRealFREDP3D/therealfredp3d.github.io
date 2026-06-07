@@ -155,6 +155,7 @@ const projectsData = [
         "image": "https://raw.githubusercontent.com/TheRealFREDP3D/HTB-MCP-Client/main/HTB-MCP-Client-Banner.png",
         "pushed_at": "2025-05-23T14:06:42Z",
         "tags": [
+        "tags": [
             "client",
             "ctf",
             "ctf-events",
@@ -164,8 +165,8 @@ const projectsData = [
             "htb-mcp",
             "mcp",
             "mcp-client",
-            "Python",
-            "Cybersecurity"
+            "python",
+            "cybersecurity"
         ],
         "narrative": "### The Vision\nHackTheBox (HTB) is a premier platform for cybersecurity training. I created this TUI (Terminal User Interface) client to streamline the experience of managing challenges and interacting with the HTB Model Context Protocol (MCP) server directly from the command line.\n\n### The Evolution\nThe project started as a tool for quick challenge lookups. It evolved into a robust management suite. Commits show a shift towards modular architecture, specifically in how schema templates are generated for the MCP. I also focused heavily on error handling and stability, replacing silent exceptions with structured logging to make the tool reliable for active CTF competitions.\n\n### Key Features\n- **Textual TUI**: A beautiful and responsive terminal interface built with Python.\n- **Container Management**: Integrated controls to start/stop challenge instances via the HTB API.\n- **Persistent State**: Automated session management so you can pick up exactly where you left off.\n"
     },
@@ -379,7 +380,7 @@ class ProjectManager {
     }
 
     openModal(id) {
-        const project = this.projects.find(p => p.id == id);
+        const project = this.projects.find(p => p.id === Number(id));
         if (!project) return;
 
         const modal = document.getElementById('project-modal');
