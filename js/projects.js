@@ -380,7 +380,7 @@ class ProjectManager {
     }
 
     openModal(id) {
-        const project = this.projects.find(p => p.id == id);
+        const project = this.projects.find(p => p.id === Number(id));
         if (!project) return;
 
         const modal = document.getElementById('project-modal');
