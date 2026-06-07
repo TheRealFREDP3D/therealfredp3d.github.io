@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - THEREALFRED.CA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/projects.css">
+</head>
+<body class="projects-page">
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" class="logo-text">THEREALFRED.CA</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#skills" class="nav-link">Skills</a></li>
+                <li><a href="projects.html" class="nav-link active">Projects</a></li>
+                <li><a href="blog-enhanced.html" class="nav-link">Blog</a></li>
+                <li><a href="index.html#stats" class="nav-link">Stats</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="projects-header">
+        <div class="container">
+            <h1 class="section-title">Project Portfolio</h1>
+            <p class="section-subtitle">A collection of my significant projects, ranging from AI simulations to cybersecurity tools and web applications.</p>
+            <div id="project-count" style="color: var(--highlight-color); margin-top: 1rem; font-family: 'JetBrains Mono';">0 Projects</div>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            <div class="controls-section">
+                <div class="search-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-projects" class="search-input" placeholder="Search projects by name or description...">
+                </div>
+                <div class="filter-tags">
+                    <button class="tag-filter active" data-tag="all">All</button>
+                    <button class="tag-filter" data-tag="AI">AI</button>
+                    <button class="tag-filter" data-tag="Python">Python</button>
+                    <button class="tag-filter" data-tag="TypeScript">TypeScript</button>
+                    <button class="tag-filter" data-tag="Cybersecurity">Cybersecurity</button>
+                    <button class="tag-filter" data-tag="Game">Game</button>
+                </div>
+            </div>
+
+            <div class="projects-grid" id="projects-grid">
+                <!-- Projects populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Modal -->
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" aria-label="Close modal">&times;</button>
+            <div id="modal-project-content">
+                <!-- Content populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2026 Frederick Pellerin (TheRealFredP3D). Built with passion.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/projects.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
