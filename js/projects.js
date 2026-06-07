@@ -329,9 +329,9 @@ class ProjectManager {
 
         document.querySelectorAll('.tag-filter').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                this.currentFilter = e.target.dataset.tag;
+                this.currentFilter = btn.dataset.tag;
                 document.querySelectorAll('.tag-filter').forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
+                btn.classList.add('active');
                 this.applyFilters();
             });
         });
@@ -528,15 +528,22 @@ class ProjectManager {
     }
 
     animateCards() {
+        if (!this.animationTimeouts) {
+            this.animationTimeouts = [];
+        }
+        this.animationTimeouts.forEach(clearTimeout);
+        this.animationTimeouts = [];
+
         const cards = document.querySelectorAll('.project-card');
         cards.forEach((card, i) => {
             card.style.opacity = '0';
             card.style.transform = 'translateY(20px)';
-            setTimeout(() => {
+            const timeoutId = setTimeout(() => {
                 card.style.transition = 'all 0.5s ease';
                 card.style.opacity = '1';
                 card.style.transform = 'translateY(0)';
             }, i * 100);
+            this.animationTimeouts.push(timeoutId);
         });
     }
 
