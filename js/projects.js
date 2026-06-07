@@ -103,6 +103,7 @@ const projectsData = [
             "github",
             "repository",
             "stats",
+            "react",
             "TypeScript"
         ],
         "narrative": "### The Vision\nQuickHubPulse was born from the need for a faster, more intuitive way to monitor GitHub repository health. While GitHub provides extensive data, navigating multiple tabs to see traffic, stars, and issues can be cumbersome. I wanted a \"pulse\" view that combined visual trends with deep insights.\n\n### The Evolution\nThe development journey focused on making the application professional and production-ready. Early commits show the core implementation using React 19 and Tailwind CSS 4. As the project matured, I shifted focus to robust state management, implementing persistent authentication via sessionStorage and refining the OAuth flow to be fully standards-compliant. The move to Node.js 20 and optimized Netlify builds ensured the dashboard stays as fast as the data it displays.\n\n### Key Features\n- **Real-time Visualization**: Using Recharts to transform raw GitHub API data into actionable traffic trends.\n- **Modern Stack**: Built with the latest React 19 features for maximum performance.\n- **Architecture**: A clean, modular design that separates the data fetching layer from the UI, as documented in the core system architecture.\n"
