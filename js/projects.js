@@ -42,7 +42,6 @@ function createSafeElement(tag, text = '', className = '', attributes = {}) {
     if (className) el.className = className;
     if (text) el.textContent = text;
 
-    // Track whether target="_blank" is being set so we can enforce rel
     let hasBlankTarget = false;
 
     for (const [key, value] of Object.entries(attributes)) {
@@ -53,12 +52,10 @@ function createSafeElement(tag, text = '', className = '', attributes = {}) {
                 el.setAttribute('target', '_blank');
                 hasBlankTarget = true;
             }
-            // Discard any other target value (e.g. _parent, _top) for safety
         } else {
-            // Only allow safe, known attributes
             const SAFE_ATTRS = new Set([
                 'alt', 'class', 'id', 'type', 'placeholder',
-                'data-id', 'data-tag', 'title', 'rel'
+                'data-id', 'data-tag', 'title', 'rel', 'aria-label'
             ]);
             if (SAFE_ATTRS.has(key)) {
                 el.setAttribute(key, value);
@@ -66,13 +63,28 @@ function createSafeElement(tag, text = '', className = '', attributes = {}) {
         }
     }
 
-    // Always enforce rel="noopener noreferrer" on blank-target links,
-    // regardless of whether the caller supplied a rel attribute.
     if (hasBlankTarget) {
         el.setAttribute('rel', 'noopener noreferrer');
     }
 
     return el;
+}
+
+/** Shared fallback image path used when a project image fails to load. */
+const FALLBACK_IMAGE = 'assets/images/python-background.jpg';
+
+/**
+ * Attaches an onerror listener to an img element that swaps in the fallback
+ * image. Keeping this in JS (rather than an inline onerror attribute) means
+ * behaviour logic stays out of markup and is easy to update in one place.
+ * @param {HTMLImageElement} img
+ */
+function attachImageFallback(img) {
+    img.addEventListener('error', () => {
+        if (img.src !== new URL(FALLBACK_IMAGE, window.location.href).href) {
+            img.src = FALLBACK_IMAGE;
+        }
+    }, { once: true });
 }
 
 const projectsData = [
@@ -91,7 +103,7 @@ const projectsData = [
             "github",
             "repository",
             "stats",
-            "React"
+            "TypeScript"
         ],
         "narrative": "### The Vision\nQuickHubPulse was born from the need for a faster, more intuitive way to monitor GitHub repository health. While GitHub provides extensive data, navigating multiple tabs to see traffic, stars, and issues can be cumbersome. I wanted a \"pulse\" view that combined visual trends with deep insights.\n\n### The Evolution\nThe development journey focused on making the application professional and production-ready. Early commits show the core implementation using React 19 and Tailwind CSS 4. As the project matured, I shifted focus to robust state management, implementing persistent authentication via sessionStorage and refining the OAuth flow to be fully standards-compliant. The move to Node.js 20 and optimized Netlify builds ensured the dashboard stays as fast as the data it displays.\n\n### Key Features\n- **Real-time Visualization**: Using Recharts to transform raw GitHub API data into actionable traffic trends.\n- **Modern Stack**: Built with the latest React 19 features for maximum performance.\n- **Architecture**: A clean, modular design that separates the data fetching layer from the UI, as documented in the core system architecture.\n"
     },
@@ -151,7 +163,7 @@ const projectsData = [
             "htb-mcp",
             "mcp",
             "mcp-client",
-            "python",
+            "Python",
             "Cybersecurity"
         ],
         "narrative": "### The Vision\nHackTheBox (HTB) is a premier platform for cybersecurity training. I created this TUI (Terminal User Interface) client to streamline the experience of managing challenges and interacting with the HTB Model Context Protocol (MCP) server directly from the command line.\n\n### The Evolution\nThe project started as a tool for quick challenge lookups. It evolved into a robust management suite. Commits show a shift towards modular architecture, specifically in how schema templates are generated for the MCP. I also focused heavily on error handling and stability, replacing silent exceptions with structured logging to make the tool reliable for active CTF competitions.\n\n### Key Features\n- **Textual TUI**: A beautiful and responsive terminal interface built with Python.\n- **Container Management**: Integrated controls to start/stop challenge instances via the HTB API.\n- **Persistent State**: Automated session management so you can pick up exactly where you left off.\n"
@@ -172,9 +184,9 @@ const projectsData = [
             "github",
             "mermaid",
             "pull-request",
-            "React"
+            "TypeScript"
         ],
-        "narrative": "### The Vision\nArchitecture documentation often lives in GitHub Pull Requests but gets buried once the PR is merged. This tool was built to surface those Mermaid diagrams, making it easy to discover and visualize the structural changes proposed in any repository.\n\n### The Evolution\nStarting as a prototype, the project quickly moved toward v0.1.1. The development focus was on the reliability of the \"MermaidRenderer\" component. I iterated on how the extractor identifies diagrams within PR comments and descriptions, ensuring that even complex nested diagrams are captured correctly. Recent maintenance focused on keeping the dependencies like picomatch and rollup updated for security and performance.\n\n### Key Features\n- **Automated Extraction**: Scans PR history to find and render Mermaid diagrams.\n- **Multiple Export Formats**: Export discovered diagrams to Markdown or Draw.io XML.\n- **Developer-Centric**: Built with React 19 and TypeScript for a type-safe, modern experience.\n"
+        "narrative": "### The Vision\nArchitecture documentation often lives in GitHub Pull Requests but gets buried once the PR is merged. This tool was built to surface those Mermaid diagrams, making it easy to discover and visualize the structural changes proposed in any repository.\n\n### The Evolution\nStarting as a prototype, the project quickly moved toward v0.1.1. The development focus was on the reliability of the \"MermaidRenderer\" component. I iterated on how the extractor identifies diagrams within PR comments and descriptions, ensuring that even complex nested diagrams are captured correctly. Recent maintenance focused on keeping the dependencies like picomatch and rollup updated for security and performance.\n\n### Key Features\n- **Automated Extraction**: Scans PR history to find and render Mermaid diagrams.\n- **Multiple Export Formats**: Export discovered diagrams to Markdown or Draw.io XML.\n- **Developer-Centric**: Built with TypeScript for a type-safe, modern experience.\n"
     },
     {
         "id": 891248393,
@@ -187,7 +199,7 @@ const projectsData = [
         "image": "https://raw.githubusercontent.com/TheRealFREDP3D/Ollama-Colab/main/assets/header.jpg",
         "pushed_at": "2025-05-09T19:46:39Z",
         "tags": [
-            "ai",
+            "AI",
             "cloudflare",
             "coding-assistants",
             "colab",
@@ -221,14 +233,15 @@ class ProjectManager {
         const container = document.getElementById('projects-grid');
         if (!container) return;
 
-        // Clear container safely
+        // Clear container safely — no innerHTML
         while (container.firstChild) {
             container.removeChild(container.firstChild);
         }
 
         if (this.filteredProjects.length === 0) {
             const emptyState = createSafeElement('div', '', 'empty-state');
-            emptyState.appendChild(createSafeElement('i', '', 'fas fa-search'));
+            const icon = createSafeElement('i', '', 'fas fa-search');
+            emptyState.appendChild(icon);
             emptyState.appendChild(createSafeElement('h3', 'No projects found'));
             emptyState.appendChild(createSafeElement('p', 'Try adjusting your search or filters.'));
             container.appendChild(emptyState);
@@ -250,10 +263,12 @@ class ProjectManager {
         // Image container
         const imageContainer = createSafeElement('div', '', 'project-image');
 
-        const img = createSafeElement('img', '', '', { alt: project.title || '' });
-        // Use setSafeUrl for image src; fall back to a safe local asset on error
+        const img = document.createElement('img');
+        img.alt = project.title || '';
+        img.className = '';
         setSafeUrl(img, 'src', project.image || '');
-        img.onerror = () => { img.setAttribute('src', 'assets/images/python-background.jpg'); };
+        // Attach fallback via JS event listener — no inline onerror attribute
+        attachImageFallback(img);
 
         const overlay = createSafeElement('div', '', 'project-stats-overlay');
 
@@ -287,7 +302,6 @@ class ProjectManager {
         const btn = createSafeElement('button', 'View Details', 'btn btn-primary view-details');
         btn.dataset.id = project.id;
 
-        // target="_blank" triggers automatic rel="noopener noreferrer" in createSafeElement
         const githubLink = createSafeElement('a', '', 'github-link', {
             href: project.url || '',
             target: '_blank'
@@ -321,7 +335,7 @@ class ProjectManager {
             });
         });
 
-        // Modal triggers
+        // Modal triggers via event delegation
         document.addEventListener('click', (e) => {
             if (e.target.classList.contains('view-details')) {
                 const id = e.target.dataset.id;
@@ -371,17 +385,20 @@ class ProjectManager {
         const content = document.getElementById('modal-project-content');
         if (!modal || !content) return;
 
-        // Clear content safely
+        // Clear content safely — no innerHTML
         while (content.firstChild) {
             content.removeChild(content.firstChild);
         }
 
-        // Header
+        // --- Header ---
         const header = createSafeElement('div', '', 'modal-header');
 
-        const img = createSafeElement('img', '', 'modal-hero-image', { alt: project.title || '' });
+        const img = document.createElement('img');
+        img.className = 'modal-hero-image';
+        img.alt = project.title || '';
         setSafeUrl(img, 'src', project.image || '');
-        img.onerror = () => { img.setAttribute('src', 'assets/images/python-background.jpg'); };
+        // Fallback via JS listener — no inline onerror attribute
+        attachImageFallback(img);
         header.appendChild(img);
 
         header.appendChild(createSafeElement('h2', project.title || 'Untitled'));
@@ -399,9 +416,7 @@ class ProjectManager {
         const updated = createSafeElement('span');
         updated.appendChild(createSafeElement('i', '', 'fas fa-clock'));
         let dateStr = 'Unknown';
-        try {
-            dateStr = new Date(project.pushed_at).toLocaleDateString();
-        } catch { /* keep default */ }
+        try { dateStr = new Date(project.pushed_at).toLocaleDateString(); } catch { /* keep default */ }
         updated.appendChild(document.createTextNode(` Last updated: ${dateStr}`));
 
         meta.appendChild(stars);
@@ -409,14 +424,14 @@ class ProjectManager {
         meta.appendChild(updated);
         header.appendChild(meta);
 
-        // Body — narrative rendered via safe DOM builder
+        // --- Body (narrative) ---
         const body = createSafeElement('div', '', 'modal-body');
         const narrativeDiv = createSafeElement('div', '', 'narrative');
-        // Guard against null/undefined narrative
+        // formatMarkdown returns a DocumentFragment — append directly, no innerHTML needed
         narrativeDiv.appendChild(this.formatMarkdown(project.narrative || ''));
         body.appendChild(narrativeDiv);
 
-        // Footer — target="_blank" triggers automatic rel="noopener noreferrer"
+        // --- Footer ---
         const footer = createSafeElement('div', '', 'modal-footer');
         const link = createSafeElement('a', '', 'btn btn-primary', {
             href: project.url || '',
@@ -435,7 +450,6 @@ class ProjectManager {
 
         const closeBtn = modal.querySelector('.close-modal');
         if (closeBtn) {
-            // Clone to remove any stale listeners before re-attaching
             const newClose = closeBtn.cloneNode(true);
             closeBtn.parentNode.replaceChild(newClose, closeBtn);
             newClose.onclick = () => {
@@ -468,7 +482,6 @@ class ProjectManager {
                 this.appendInline(li, trimmed.substring(2));
                 currentList.appendChild(li);
             } else {
-                // Any non-list line closes the current list
                 currentList = null;
 
                 if (trimmed.startsWith('### ')) {

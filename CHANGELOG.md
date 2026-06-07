@@ -8,6 +8,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] - 2026-06-07
 
 ### Security
+- **FIXED**: Eliminated remaining `innerHTML` template-string usage in `js/projects.js`
+  - `renderProjects()` now clears the container with a `while/removeChild` loop and
+    appends cards via `createProjectCard()` returning real DOM nodes
+  - `openModal()` fully rewritten using `createSafeElement`, `setSafeUrl`, and
+    `document.createTextNode` — no template literals injected into the DOM
+  - `formatMarkdown()` already returned a `DocumentFragment`; `openModal()` now
+    appends it directly instead of injecting it via `innerHTML`
+
+### Changed
+- **IMPROVED**: `onerror` fallback for project images moved from inline HTML attribute
+  into a dedicated `attachImageFallback(img)` JS helper
+  - Behaviour is now centralised; updating the fallback path requires changing
+    only the `FALLBACK_IMAGE` constant at the top of `js/projects.js`
+  - Applies consistently to both card images and modal hero images
+- **FIXED**: `data-tag="React"` filter button replaced with `data-tag="TypeScript"`
+  in `projects.html` — `React` matched no project tags so the filter always
+  returned empty results; `TypeScript` is present on two projects
+  - `"React"` tag updated to `"TypeScript"` in `QuickHubPulse` and
+    `PullRequest-Mermaid-Extractor` entries in `projectsData`
+  - `"Game"` filter added to replace the unused `"LLM"` button (matches
+    `Buzz-Bites`)
+- **IMPROVED**: Inline `<style>` block extracted from `projects.html` into new
+  `css/projects.css`
+  - All rules namespaced under `.projects-page` to avoid specificity conflicts
+    with global styles
+  - `<body>` tag in `projects.html` updated to `<body class="projects-page">`
+  - `<link rel="stylesheet" href="css/projects.css">` added to `<head>`
+- **IMPROVED**: Navbar in `projects.html` standardised to match `index.html` and
+  `blog-enhanced.html` (consistent link order, `index.html` home href, `<span
+  class="bar">` pattern)
+
+## [Unreleased] - 2026-06-07 (earlier)
+
+### Security
 - **FIXED**: Reverse-tabnabbing vulnerability in `js/projects.js`
   - `createSafeElement` now tracks when `target="_blank"` is set and **always** applies
     `rel="noopener noreferrer"` after the attribute loop, regardless of caller input
@@ -23,7 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Changed from movement-based fade to time-based fade with 1-second duration
   - Added timestamp tracking to trail points for accurate age calculation
   - Implemented continuous fade loop running at 60fps for smooth transitions
-  - Improved visual consistency and smoother trail behavior
+  - Improved visual consistency and smoother trail behaviour
 
 ## [Previous] - 2025-01-26
 
@@ -46,7 +80,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fixed inconsistent tag filtering by aligning `data-tag` attribute with button label
   - Changed `data-tag="Orwell"` to `data-tag="Analysis"` in blog.html
-- Fixed unreliable date sorting by standardizing date format
+- Fixed unreliable date sorting by standardising date format
   - Converted all blog post dates from mixed formats to ISO format (YYYY-MM-DD)
   - Ensures consistent chronological ordering in `getRecentPosts()`
 
@@ -76,7 +110,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Technical Debt
 - Eliminated security anti-patterns (innerHTML usage with user data)
 - Removed performance bottlenecks (DOM recreation in animation loops)
-- Standardized data formats for reliable operations
+- Standardised data formats for reliable operations
 - Consolidated scattered initialization code
 
 ---
