@@ -155,7 +155,6 @@ const projectsData = [
         "image": "https://raw.githubusercontent.com/TheRealFREDP3D/HTB-MCP-Client/main/HTB-MCP-Client-Banner.png",
         "pushed_at": "2025-05-23T14:06:42Z",
         "tags": [
-        "tags": [
             "client",
             "ctf",
             "ctf-events",
@@ -377,6 +376,7 @@ class ProjectManager {
             return matchesSearch && matchesTag;
         });
         this.renderProjects();
+        this.updateStats();
     }
 
     openModal(id) {
@@ -550,7 +550,10 @@ class ProjectManager {
 
     updateStats() {
         const countEl = document.getElementById('project-count');
-        if (countEl) countEl.textContent = `${this.projects.length} Projects`;
+        if (countEl) {
+            const count = this.filteredProjects.length;
+            countEl.textContent = `${count} Project${count !== 1 ? 's' : ''} found`;
+        }
     }
 }
 
