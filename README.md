@@ -1,4 +1,4 @@
-# TheRealFredP3D Personal Website
+# https://therealfred.ca - TheRealFredP3D Personal Website
 
 A modern, responsive personal portfolio website for Frederick Pellerin (TheRealFredP3D), showcasing expertise in cybersecurity, AI, Python development, and CTF competitions.
 
@@ -117,7 +117,7 @@ For questions or suggestions about this website:
 - LinkedIn: [fredp3d](https://linkedin.com/in/fredp3d)
 - Twitter: [@TheRealFREDP3D](https://twitter.com/TheRealFREDP3D)
 - Email: [fredp3d@proton.me](mailto:fredp3d@proton.me)
-- Website: [https://therealfred.ca](therealfred.ca - Learning in Public & Projects)
+- Website: [https://therealfred.ca](https://therealfred.ca)
   
 ---
 
