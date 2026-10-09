@@ -302,7 +302,10 @@
                 <li><a href="../../../index.html#projects" class="nav-link">Projects</a></li>
                 <li><a href="../../../index.html#stats" class="nav-link">Stats</a></li>
                 <li><a href="../../../blog-enhanced.html" class="nav-link">Blog</a></li>
-                <li><a href="../../../index.html#contact" class="nav-link">Contact</a></li>
+                                <li><a href="../../../index.html#contact" class="nav-link">Contact</a></li>
+                <li><a href="../../../regexdojo/" id="regexdojo-tab" class="nav-link regexdojo-tab" title="Enter the RegexDojo — interactive regex trainer">
+                    <i class="fas fa-khanda"></i> RegexDojo
+                </a></li>
             </ul>
             <div class="hamburger">
                 <span class="bar"></span>
@@ -439,5 +442,34 @@
         // Load article when page loads
         document.addEventListener('DOMContentLoaded', loadArticle);
     </script>
+
+    <!-- RegexDojo full-embed overlay -->
+    <div id="regexdojo-overlay" class="regexdojo-overlay" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="RegexDojo">
+        <header class="regexdojo-overlay__bar">
+            <button type="button" id="regexdojo-close" class="regexdojo-back" aria-label="Exit RegexDojo and return to site">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to site</span>
+            </button>
+            <div class="regexdojo-brand">
+                <span class="regexdojo-brand__icon"><i class="fas fa-khanda"></i></span>
+                <span class="regexdojo-brand__text">
+                    <strong>RegexDojo</strong>
+                    <em>Master the Pattern</em>
+                </span>
+            </div>
+            <a href="https://github.com/therealfredp3d/regexdojo" target="_blank" rel="noopener noreferrer" class="regexdojo-source">
+                <i class="fab fa-github"></i>
+                <span>Source</span>
+            </a>
+        </header>
+        <div class="regexdojo-overlay__host">
+            <div id="regexdojo-loader" class="regexdojo-loader">
+                <span class="regexdojo-loader__icon"><i class="fas fa-khanda"></i></span>
+                <span class="regexdojo-loader__text">Entering the dojo&hellip;</span>
+            </div>
+            <iframe id="regexdojo-iframe" src="about:blank" title="RegexDojo — Interactive Regex Learning Playground" allow="clipboard-write"></iframe>
+        </div>
+    </div>
+    <script src="js/regexdojo.js"></script>
 </body>
 </html>

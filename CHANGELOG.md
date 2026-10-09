@@ -5,7 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - 2026-06-07
+## [Unreleased] - 2026-10-10
+
+### Added
+- **NEW**: `RegexDojo` tab in the navbar across all pages — opens a full-screen
+  overlay embedding the interactive regex learning playground
+  ([regexdojo](https://github.com/therealfredp3d/regexdojo)).
+  - Distinct crimson/amber "Warm-Halo" identity intentionally stands out from
+    the teal cybersecurity theme of the rest of the site.
+  - Self-hosted Vite production bundle served from `regexdojo/` (no external
+    runtime dependency).
+  - Lazy-loaded iframe — `src` only set on first open to keep the rest of the
+    site snappy.
+  - `Esc` closes the overlay; focus moves in/out for accessibility.
+- **NEW**: `js/regexdojo.js` — self-contained overlay controller (no external
+  dependencies; plays nicely with the existing `js/main.js`).
+- **NEW**: `.regexdojo-*` and `.nav-link.regexdojo-tab` styles in `css/style.css`
+  + responsive tweaks in `css/responsive.css`.
+- **NEW**: overlay markup injected before `</body>` in `index.html`,
+  `projects.html`, `blog-enhanced.html`, and both files under
+  `blog/articles/cout-du-deneigement/`.
+
+### Notes
+- The RegexDojo bundle under `regexdojo/` is a build artifact. To regenerate
+  after upstream RegexDojo changes, rebuild the regexdojo repo with
+  `base: '/regexdojo/'` in `vite.config.ts` and copy `dist/*` over.
 
 ### Security
 - **FIXED**: Eliminated remaining `innerHTML` template-string usage in `js/projects.js`
