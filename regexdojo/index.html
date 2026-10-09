@@ -13,7 +13,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:title" content="RegexDojo - Master Regular Expressions, Tame the Beast" />
     <meta property="og:description" content="An interactive regex learning playground with 13 progressive lessons, translation exercises, and a sandbox. Master regular expressions through hands-on practice." />
-    <meta property="og:image" content="/regexdojo/social.jpg" />
+    <meta property="og:image" id="og-image" content="/regexdojo/social.jpg" />
     <meta property="og:site_name" content="RegexDojo" />
     <meta property="og:locale" content="en_US" />
 
@@ -21,27 +21,59 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="RegexDojo - Master Regular Expressions, Tame the Beast" />
     <meta name="twitter:description" content="An interactive regex learning playground with 13 progressive lessons, translation exercises, and a sandbox." />
-    <meta name="twitter:image" content="/regexdojo/social.jpg" />
+    <meta name="twitter:image" id="twitter-image" content="/regexdojo/social.jpg" />
 
     <!-- Additional SEO -->
     <meta name="theme-color" content="#1a1a2e" />
     <meta name="application-name" content="RegexDojo" />
 
     <!-- Favicon & PWA -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/regexdojo/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/regexdojo/favicon/favicon-16x16.png">
-    <link rel="icon" href="/regexdojo/favicon/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/regexdojo/favicon/apple-touch-icon.png">
-    <link rel="manifest" href="/regexdojo/favicon/site.webmanifest">
+    <script>
+      // Set favicon paths based on protocol
+      if (window.location.protocol === 'file:') {
+        document.write('<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">');
+        document.write('<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">');
+        document.write('<link rel="icon" href="favicon/favicon.ico">');
+        document.write('<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">');
+        document.write('<link rel="manifest" href="favicon/site.webmanifest">');
+      } else {
+        document.write('<link rel="icon" type="image/png" sizes="32x32" href="/regexdojo/favicon/favicon-32x32.png">');
+        document.write('<link rel="icon" type="image/png" sizes="16x16" href="/regexdojo/favicon/favicon-16x16.png">');
+        document.write('<link rel="icon" href="/regexdojo/favicon/favicon.ico">');
+        document.write('<link rel="apple-touch-icon" sizes="180x180" href="/regexdojo/favicon/apple-touch-icon.png">');
+        document.write('<link rel="manifest" href="/regexdojo/favicon/site.webmanifest">');
+      }
+    </script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=VT323&display=swap" rel="stylesheet">
-    <script type="module" crossorigin src="/regexdojo/assets/index-DyoO5obn.js"></script>
-    <link rel="modulepreload" crossorigin href="/regexdojo/assets/ui-vendor-DfdQLljy.js">
-    <link rel="modulepreload" crossorigin href="/regexdojo/assets/react-vendor-CT3E2iys.js">
-    <link rel="stylesheet" crossorigin href="/regexdojo/assets/index-CggzAKpg.css">
+
+    <!-- For file:// protocol, rewrite asset URLs to be relative -->
+    <script>
+      (function() {
+        if (window.location.protocol === 'file:') {
+          // Use relative paths for file:// protocol
+          document.write('<script type="module" crossorigin src="assets/index-DyoO5obn.js"><\/script>');
+          document.write('<link rel="modulepreload" crossorigin href="assets/ui-vendor-DfdQLljy.js">');
+          document.write('<link rel="modulepreload" crossorigin href="assets/react-vendor-CT3E2iys.js">');
+          document.write('<link rel="stylesheet" crossorigin href="assets/index-CggzAKpg.css">');
+
+          // Fix social image URLs
+          var ogImage = document.getElementById('og-image');
+          var twitterImage = document.getElementById('twitter-image');
+          if (ogImage) ogImage.content = 'social.jpg';
+          if (twitterImage) twitterImage.content = 'social.jpg';
+        } else {
+          // Use absolute paths for http/https
+          document.write('<script type="module" crossorigin src="/regexdojo/assets/index-DyoO5obn.js"><\/script>');
+          document.write('<link rel="modulepreload" crossorigin href="/regexdojo/assets/ui-vendor-DfdQLljy.js">');
+          document.write('<link rel="modulepreload" crossorigin href="/regexdojo/assets/react-vendor-CT3E2iys.js">');
+          document.write('<link rel="stylesheet" crossorigin href="/regexdojo/assets/index-CggzAKpg.css">');
+        }
+      })();
+    </script>
   </head>
   <body class="min-h-screen antialiased selection:bg-[#ff4f63]/35 selection:text-[#ffb3bc]">
     <div id="root"></div>
