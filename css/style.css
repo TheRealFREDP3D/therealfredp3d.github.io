@@ -825,3 +825,238 @@ section {
     transform: translateX(0);
 }
 
+
+/* ============================================================
+   RegexDojo tab + full-embed overlay
+   Distinct crimson/amber "dojo" identity — intentionally stands
+   out from the teal cybersecurity theme of the rest of the site.
+   ============================================================ */
+
+:root {
+    --dojo-primary: #ff4f63;
+    --dojo-secondary: #ff6a3d;
+    --dojo-bg: #08080a;
+    --dojo-glow: rgba(255, 79, 99, 0.45);
+    --dojo-border: rgba(255, 79, 99, 0.35);
+    --dojo-grad: linear-gradient(135deg, #ff4f63 0%, #ff6a3d 100%);
+}
+
+/* --- Nav tab --- */
+.nav-link.regexdojo-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 6px;
+    color: var(--dojo-primary);
+    background: rgba(255, 79, 99, 0.08);
+    border: 1px solid var(--dojo-border);
+    text-shadow: 0 0 10px var(--dojo-glow);
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.nav-link.regexdojo-tab:hover {
+    color: var(--dojo-primary);
+    background: rgba(255, 79, 99, 0.18);
+    box-shadow: 0 0 18px var(--dojo-glow);
+    transform: translateY(-1px);
+    text-shadow: 0 0 10px var(--dojo-glow);
+}
+
+.nav-link.regexdojo-tab::after {
+    /* Override the teal underline used by normal nav links */
+    background: var(--dojo-grad);
+    box-shadow: 0 0 5px var(--dojo-glow);
+}
+
+.nav-link.regexdojo-tab.is-active {
+    background: var(--dojo-grad);
+    color: #fff;
+    text-shadow: none;
+    box-shadow: 0 0 22px var(--dojo-glow);
+}
+
+.nav-link.regexdojo-tab i {
+    font-size: 0.95rem;
+}
+
+/* --- Full-screen overlay --- */
+.regexdojo-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    background: var(--dojo-bg);
+}
+
+.regexdojo-overlay[hidden] {
+    display: none;
+}
+
+.regexdojo-overlay__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 1.25rem;
+    background: rgba(22, 22, 27, 0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--dojo-border);
+    box-shadow: 0 0 22px var(--dojo-glow);
+    flex-shrink: 0;
+}
+
+.regexdojo-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-color);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.regexdojo-back:hover {
+    transform: translateX(-2px);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.regexdojo-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 0;
+}
+
+.regexdojo-brand__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 8px;
+    background: var(--dojo-grad);
+    box-shadow: 0 0 14px var(--dojo-glow);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.regexdojo-brand__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    min-width: 0;
+}
+
+.regexdojo-brand__text strong {
+    color: var(--dojo-primary);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.regexdojo-brand__text em {
+    color: var(--text-secondary);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-style: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+}
+
+.regexdojo-source {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 6px;
+    border: 1px solid var(--dojo-border);
+    background: rgba(255, 79, 99, 0.08);
+    color: var(--dojo-primary);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.regexdojo-source:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 79, 99, 0.18);
+}
+
+.regexdojo-overlay__host {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.regexdojo-loader {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background: var(--dojo-bg);
+    transition: opacity 0.3s ease;
+}
+
+.regexdojo-loader.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.regexdojo-loader__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 1rem;
+    background: var(--dojo-grad);
+    box-shadow: 0 0 30px var(--dojo-glow);
+    color: #fff;
+    font-size: 1.75rem;
+    animation: regexdojo-pulse 1.4s ease-in-out infinite;
+}
+
+.regexdojo-loader__text {
+    color: var(--dojo-primary);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+}
+
+#regexdojo-iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: var(--dojo-bg);
+    display: block;
+}
+
+@keyframes regexdojo-pulse {
+    0%, 100% { box-shadow: 0 0 16px var(--dojo-glow); }
+    50%      { box-shadow: 0 0 30px var(--dojo-glow); }
+}
+
+/* --- Body lock when overlay is open --- */
+body.regexdojo-open {
+    overflow: hidden;
+}
+
+/* --- Hide the RegexDojo tab from printouts --- */
+@media print {
+    .regexdojo-tab,
+    .regexdojo-overlay {
+        display: none !important;
+    }
+}

@@ -5,6 +5,7 @@ A modern, responsive personal portfolio website for Frederick Pellerin (TheRealF
 ## Features
 
 - **Modern Design**: Dark cybersecurity theme with animated elements
+- **RegexDojo Integration**: Interactive regex trainer embedded as a distinct crimson tab
 - **Responsive Layout**: Optimized for desktop, tablet, and mobile devices
 - **Interactive Elements**: Smooth scrolling, hover effects, and animations
 - **Professional Portfolio**: Showcases projects, skills, and achievements
@@ -18,6 +19,7 @@ A modern, responsive personal portfolio website for Frederick Pellerin (TheRealF
 4. **Projects**: Featured GitHub projects with descriptions and tech stacks
 5. **Statistics**: GitHub stats and training platform achievements
 6. **Contact**: Social links and contact information
+7. **RegexDojo**: Full-screen interactive regex learning playground (13 lessons, translate mode, sandbox)
 
 ## Technologies Used
 
@@ -26,6 +28,36 @@ A modern, responsive personal portfolio website for Frederick Pellerin (TheRealF
 - **JavaScript**: Interactive functionality and animations
 - **Font Awesome**: Icons for enhanced visual appeal
 - **Google Fonts**: Inter and JetBrains Mono typography
+
+
+### RegexDojo Integration
+
+The site embeds the [RegexDojo](https://github.com/therealfredp3d/regexdojo) app —
+an interactive regex learning playground — as a full-screen overlay launched from
+a distinct crimson tab in the navbar.
+
+- **Self-hosted bundle**: the production Vite build lives at `regexdojo/` and is
+  served as static assets by GitHub Pages (no external runtime dependency).
+- **Distinct identity**: the RegexDojo tab and overlay chrome use a crimson/amber
+  "Warm-Halo" palette so they stand out from the teal cybersecurity theme of
+  the rest of the site. Inside the iframe, RegexDojo keeps its own themes
+  (Warm-Halo, Glacius, Nord, Dracula, Abyss, Tokyo Night).
+- **Lazy-loaded**: the iframe `src` is only set on first open, so the rest of
+  the site stays snappy.
+- **Keyboard friendly**: `Esc` closes the overlay; focus is moved into and out
+  of the overlay for accessibility.
+- **Files**: `js/regexdojo.js` (controller), overlay markup in each HTML page,
+  styles in `css/style.css` (`.regexdojo-*` and `.nav-link.regexdojo-tab`).
+
+To rebuild the embedded bundle after upstream RegexDojo changes:
+
+```sh
+git clone https://github.com/therealfredp3d/regexdojo.git /tmp/regexdojo
+cd /tmp/regexdojo
+# set base: '/regexdojo/' in vite.config.ts, then:
+npm install && npm run build
+cp -r dist/* /path/to/therealfredp3d.github.io/regexdojo/
+```
 
 ## Project Structure
 
