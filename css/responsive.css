@@ -275,3 +275,40 @@
     }
 }
 
+
+/* ============================================================
+   RegexDojo tab + overlay — responsive tweaks
+   ============================================================ */
+
+/* Mobile: the crimson pill tab becomes a full-width row in the dropdown */
+@media screen and (max-width: 768px) {
+    .nav-link.regexdojo-tab {
+        justify-content: center;
+        width: 100%;
+        max-width: 220px;
+        margin: 0.5rem auto;
+        padding: 0.6rem 0.9rem;
+    }
+
+    .regexdojo-overlay__bar {
+        padding: 0.6rem 0.9rem;
+        gap: 0.6rem;
+    }
+
+    .regexdojo-brand__text em {
+        display: none; /* hide tagline on very small screens */
+    }
+
+    .regexdojo-back span,
+    .regexdojo-source span {
+        display: none; /* icon-only on mobile */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .regexdojo-loader__icon {
+        width: 3.25rem;
+        height: 3.25rem;
+        font-size: 1.4rem;
+    }
+}
