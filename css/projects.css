@@ -374,3 +374,57 @@
 .nav-link.active::after {
     width: 100%;
 }
+
+/* Featured / Spotlight projects (RegexDojo & Ollama-Colab) */
+.projects-page .project-card--featured {
+    position: relative;
+    border-color: var(--highlight-color);
+    background: rgba(42, 42, 42, 0.55);
+    box-shadow: 0 0 24px rgba(0, 212, 170, 0.18);
+}
+
+.projects-page .project-card--featured::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-accent);
+    z-index: 2;
+}
+
+.projects-page .project-card--featured:hover {
+    transform: translateY(-10px) scale(1.01);
+    box-shadow: 0 10px 40px -15px rgba(0, 212, 170, 0.45);
+}
+
+.projects-page .project-card--featured .project-image {
+    height: 220px;
+}
+
+.projects-page .project-badge {
+    position: absolute;
+    top: 0.9rem;
+    left: 0.9rem;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--gradient-accent);
+    color: var(--primary-color);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.35rem 0.7rem;
+    border-radius: 6px;
+    box-shadow: 0 0 12px rgba(0, 212, 170, 0.4);
+}
+
+.projects-page .project-launch {
+    padding: 0.45rem 0.9rem;
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}

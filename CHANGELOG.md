@@ -18,7 +18,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Lazy-loaded iframe — `src` only set on first open to keep the rest of the
     site snappy.
   - `Esc` closes the overlay; focus moves in/out for accessibility.
-- **NEW**: `js/regexdojo.js` — self-contained overlay controller (no external
+- **NEW**: `Ollama-Colab` tab in the navbar across all pages - links to the
+  project presentation (`ollama-colab/presentation.html`). Styled as a teal
+  pill tab (`.nav-link.ollama-colab-tab`) so it pairs with the crimson
+  RegexDojo tab while staying in the site's accent family.
+- **NEW**: **Projects Spotlight** - `RegexDojo` and `Ollama-Colab` are featured
+  as the flagship projects because they solve real needs (mine, and hopefully
+  yours):
+  - Homepage (`index.html`): a `.projects-spotlight` strip at the top of the
+    Projects grid renders both projects as glowing cards with a "Spotlight"
+    badge, using `regexdojo/social.jpg` and `ollama-colab/Ollama-Colab-social.jpg`.
+  - Projects page (`projects.html`): new `RegexDojo` entry in `js/projects.js`,
+    `featured: true` + `launch` flags on both spotlight projects, featured cards
+    render first (`renderProjects()` sorts featured first) with a
+    `.project-card--featured` style and a direct Launch/Presentation button.
+- **NEW**: `js/regexdojo.js` - self-contained overlay controller (no external
   dependencies; plays nicely with the existing `js/main.js`).
 - **NEW**: `.regexdojo-*` and `.nav-link.regexdojo-tab` styles in `css/style.css`
   + responsive tweaks in `css/responsive.css`.

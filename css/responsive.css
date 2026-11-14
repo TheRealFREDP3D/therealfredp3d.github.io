@@ -280,9 +280,10 @@
    RegexDojo tab + overlay — responsive tweaks
    ============================================================ */
 
-/* Mobile: the crimson pill tab becomes a full-width row in the dropdown */
+/* Mobile: the pill tabs become full-width rows in the dropdown */
 @media screen and (max-width: 768px) {
-    .nav-link.regexdojo-tab {
+    .nav-link.regexdojo-tab,
+    .nav-link.ollama-colab-tab {
         justify-content: center;
         width: 100%;
         max-width: 220px;

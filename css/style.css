@@ -634,6 +634,96 @@ section {
     box-shadow: 0 0 8px var(--glow-color);
 }
 
+/* Projects Spotlight — flagship projects (RegexDojo & Ollama-Colab) */
+.projects-spotlight {
+    grid-column: 1 / -1;
+    margin-bottom: 1rem;
+}
+
+.spotlight-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.spotlight-heading h3 {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.4rem;
+    color: var(--highlight-color);
+}
+
+.spotlight-heading p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.spotlight-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.spotlight-card {
+    position: relative;
+    border: 1px solid rgba(0, 212, 170, 0.45);
+    background: rgba(42, 42, 42, 0.6);
+    box-shadow: 0 0 25px rgba(0, 212, 170, 0.12);
+}
+
+.spotlight-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-accent);
+    z-index: 2;
+}
+
+.spotlight-card:hover {
+    border-color: var(--highlight-color);
+    box-shadow: var(--shadow-primary);
+}
+
+.spotlight-card .project-image {
+    height: 220px;
+}
+
+.project-badge {
+    position: absolute;
+    top: 0.9rem;
+    left: 0.9rem;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--gradient-accent);
+    color: var(--primary-color);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.35rem 0.7rem;
+    border-radius: 6px;
+    box-shadow: 0 0 12px rgba(0, 212, 170, 0.4);
+}
+
+.spotlight-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+}
+
+.spotlight-links .btn {
+    padding: 0.55rem 1.1rem;
+    font-size: 0.85rem;
+}
+
 /* Stats Section */
 .stats-grid {
     display: grid;
@@ -880,6 +970,38 @@ section {
     font-size: 0.95rem;
 }
 
+/* --- Nav tab: Ollama-Colab (teal accent pill, matches presentation theme) --- */
+.nav-link.ollama-colab-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 6px;
+    color: var(--highlight-color);
+    background: rgba(0, 212, 170, 0.08);
+    border: 1px solid var(--border-color);
+    text-shadow: 0 0 10px var(--glow-color);
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.nav-link.ollama-colab-tab:hover {
+    color: var(--highlight-secondary);
+    background: rgba(0, 212, 170, 0.18);
+    box-shadow: 0 0 18px var(--glow-color);
+    transform: translateY(-1px);
+    text-shadow: 0 0 10px var(--glow-color);
+}
+
+.nav-link.ollama-colab-tab::after {
+    /* Gradient underline in the Ollama teal (same family as the site accent) */
+    background: var(--gradient-accent);
+    box-shadow: 0 0 5px var(--glow-color);
+}
+
+.nav-link.ollama-colab-tab i {
+    font-size: 0.95rem;
+}
+
 /* --- Full-screen overlay --- */
 .regexdojo-overlay {
     position: fixed;
@@ -1056,6 +1178,7 @@ body.regexdojo-open {
 /* --- Hide the RegexDojo tab from printouts --- */
 @media print {
     .regexdojo-tab,
+    .ollama-colab-tab,
     .regexdojo-overlay {
         display: none !important;
     }

@@ -197,7 +197,9 @@ const projectsData = [
         "stars": 9,
         "forks": 7,
         "url": "https://github.com/TheRealFREDP3D/Ollama-Colab",
-        "image": "https://raw.githubusercontent.com/TheRealFREDP3D/Ollama-Colab/main/assets/header.jpg",
+        "image": "ollama-colab/Ollama-Colab-social.jpg",
+        "launch": "ollama-colab/presentation.html",
+        "featured": true,
         "pushed_at": "2025-05-09T19:46:39Z",
         "tags": [
             "AI",
@@ -211,6 +213,27 @@ const projectsData = [
             "tunnel"
         ],
         "narrative": "### The Vision\nLocal LLMs are powerful but require significant hardware. Ollama Colab bridges this gap, allowing anyone to run state-of-the-art models like Llama 3 or DeepSeek-R1 on Google's free GPU tier with zero local setup.\n\n### The Evolution\nThe project has seen rapid iterations to keep up with the fast-moving LLM landscape. V2.4 introduced multi-tunnel support (Cloudflare and ngrok), giving users more options for connectivity. The recent v2.5 release focused on optimizing the workflow for DeepSeek-R1, adding a live model browser that lets users pull and switch models without restarting the notebook.\n\n### Key Features\n- **One-Click Deployment**: Optimized Colab notebook for the fastest possible startup time.\n- **Secure Access**: Integration with Cloudflare Tunnels for stable, HTTPS-encrypted access to the Ollama API.\n- **Hardware Monitoring**: Built-in VRAM and system usage tracking to help users manage their Colab resources.\n"
+    },
+    {
+        "id": 1205510873,
+        "name": "RegexDojo",
+        "title": "RegexDojo",
+        "description": "An interactive regex learning playground with 13 progressive lessons, translation exercises, and a sandbox. Master regular expressions through hands-on practice.",
+        "stars": 0,
+        "forks": 0,
+        "url": "https://github.com/therealfredp3d/regexdojo",
+        "image": "regexdojo/social.jpg",
+        "launch": "regexdojo/",
+        "featured": true,
+        "pushed_at": "2026-10-11T00:00:00Z",
+        "tags": [
+            "regex",
+            "education",
+            "learning",
+            "playground",
+            "TypeScript"
+        ],
+        "narrative": "### The Vision\nRegular expressions have a reputation for being write-only code. RegexDojo was born to change that: a hands-on dojo where you tame the beast one pattern at a time, with 13 progressive lessons, translation exercises, and a free sandbox, wrapped in witty, dark-humored instruction.\n\n### The Evolution\nThe production Vite bundle is embedded directly into this site as a full-screen overlay, so the dojo is always one click away. The build supports multiple themes (Warm-Halo, Glacius, Nord, Dracula, Abyss, Tokyo Night) and ships a dedicated regex worker so even heavy patterns stay responsive in the browser.\n\n### Key Features\n- **13 Progressive Lessons**: From first anchors to advanced lookarounds, each lesson teaches by doing.\n- **Translate Mode**: Exercises that train you to read patterns as fluently as you write them.\n- **Sandbox**: A live playground to test any pattern against any text, instantly.\n"
     }
 ];
 
@@ -250,7 +273,9 @@ class ProjectManager {
         }
 
         const fragment = document.createDocumentFragment();
-        this.filteredProjects.forEach(project => {
+        // Spotlight/featured projects always render first (stable sort keeps the rest in order)
+        const ordered = [...this.filteredProjects].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+        ordered.forEach(project => {
             fragment.appendChild(this.createProjectCard(project));
         });
         container.appendChild(fragment);
@@ -260,6 +285,9 @@ class ProjectManager {
     createProjectCard(project) {
         const card = createSafeElement('div', '', 'project-card');
         card.dataset.id = project.id;
+        if (project.featured) {
+            card.classList.add('project-card--featured');
+        }
 
         // Image container
         const imageContainer = createSafeElement('div', '', 'project-image');
@@ -270,6 +298,14 @@ class ProjectManager {
         setSafeUrl(img, 'src', project.image || '');
         // Attach fallback via JS event listener — no inline onerror attribute
         attachImageFallback(img);
+
+        // Spotlight badge for featured projects
+        if (project.featured) {
+            const badge = createSafeElement('span', '', 'project-badge');
+            badge.appendChild(createSafeElement('i', '', 'fas fa-star'));
+            badge.appendChild(document.createTextNode(' Spotlight'));
+            imageContainer.appendChild(badge);
+        }
 
         const overlay = createSafeElement('div', '', 'project-stats-overlay');
 
@@ -310,6 +346,19 @@ class ProjectManager {
         githubLink.appendChild(createSafeElement('i', '', 'fab fa-github'));
 
         footer.appendChild(btn);
+
+        // Direct launch link for spotlight projects (live app / presentation)
+        if (project.launch) {
+            const isApp = String(project.launch).endsWith('/');
+            const launchLink = createSafeElement('a', '', 'btn btn-primary project-launch', {
+                href: project.launch,
+                title: isApp ? 'Open the live project' : 'Open the project presentation'
+            });
+            launchLink.appendChild(createSafeElement('i', '', isApp ? 'fas fa-play' : 'fas fa-desktop'));
+            launchLink.appendChild(document.createTextNode(isApp ? ' Launch' : ' Presentation'));
+            footer.appendChild(launchLink);
+        }
+
         footer.appendChild(githubLink);
         content.appendChild(footer);
 

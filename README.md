@@ -6,6 +6,7 @@ A modern, responsive personal portfolio website for Frederick Pellerin (TheRealF
 
 - **Modern Design**: Dark cybersecurity theme with animated elements
 - **RegexDojo Integration**: Interactive regex trainer embedded as a distinct crimson tab
+- **Ollama-Colab Integration**: Navbar tab linking to the Ollama-on-Colab project presentation, paired with RegexDojo in the Projects spotlight
 - **Responsive Layout**: Optimized for desktop, tablet, and mobile devices
 - **Interactive Elements**: Smooth scrolling, hover effects, and animations
 - **Professional Portfolio**: Showcases projects, skills, and achievements
